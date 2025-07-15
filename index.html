@@ -406,6 +406,7 @@
                     <h3>Course Materials</h3>
                 </div>
                 <div class="tabs">
+                    <button class="tab" data-tab="homepage">🏠 Homepage</button>
                     <button class="tab" data-tab="overview">📚 Course Overview</button>
                     <button class="tab" data-tab="slides">📖 Lecture Slides</button>
                     <button class="tab" data-tab="homeworks">📝 Homeworks</button>
@@ -440,6 +441,7 @@
                     <h3>Course Materials</h3>
                 </div>
                 <div class="tabs">
+                    <button class="tab tab-full" data-tab="homepage">🏠 Homepage</button>
                     <button class="tab tab-full" data-tab="overview">📚 Course Overview</button>
                     <button class="tab tab-full" data-tab="slides">📖 Lecture Slides</button>
                     <button class="tab tab-full" data-tab="homeworks">📝 Homeworks</button>
@@ -525,10 +527,23 @@
             }
         };
 
-        // Handle tab clicks
+        // Handle tab clicks for course materials
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 const tabName = tab.getAttribute('data-tab');
+                
+                // Check if it's homepage tab
+                if (tabName === 'homepage') {
+                    // Scroll back to hero section
+                    document.querySelector('.hero').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // Remove active state from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    return;
+                }
+                
                 const data = tabData[tabName];
                 
                 // Update active tab
@@ -551,13 +566,20 @@
             });
         });
 
-        // Handle homepage button
+        // Handle homepage button in full page view
         homepageTab.addEventListener('click', () => {
             tabFullPage.classList.remove('visible');
             document.body.style.overflow = 'auto';
             
             // Remove active state from all tabs
             tabs.forEach(t => t.classList.remove('active'));
+            
+            // Scroll back to hero section
+            setTimeout(() => {
+                document.querySelector('.hero').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }, 300);
         });
 
         // Handle escape key to close full page
