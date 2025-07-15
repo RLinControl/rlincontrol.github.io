@@ -87,60 +87,7 @@
             width: 100%;
         }
 
-        /* Course Info Section */
-        .course-info {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
-            transition: all 0.5s ease;
-        }
-
-        .course-info.hidden {
-            opacity: 0;
-            transform: translateX(-50px);
-            pointer-events: none;
-        }
-
-        .course-info h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: #667eea;
-        }
-
-        .course-info p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 2rem;
-            line-height: 1.8;
-        }
-
-        .university {
-            font-weight: bold;
-            color: #764ba2;
-        }
-
-        .coming-soon {
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            display: inline-block;
-            margin: 2rem 0;
-            font-size: 1.1rem;
-            animation: pulse 2s infinite;
-        }
-
         /* Vertical Tabs Styles */
-        .tabs-container {
-            display: flex;
-            width: 100%;
-            min-height: 100vh;
-        }
-
         .tabs-sidebar {
             width: 300px;
             background: white;
@@ -197,20 +144,70 @@
             border-left-color: #764ba2;
         }
 
-        .tab-content-area {
+        /* Main Content Area */
+        .main-content {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 2rem;
+            transition: all 0.5s ease;
+        }
+
+        /* Course Info Section */
+        .course-info {
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+
+        .course-info.hidden {
+            opacity: 0;
+            transform: translateX(50px);
+            pointer-events: none;
+            position: absolute;
+        }
+
+        .course-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #667eea;
+        }
+
+        .course-info p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+        }
+
+        .university {
+            font-weight: bold;
+            color: #764ba2;
+        }
+
+        .coming-soon {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            display: inline-block;
+            margin: 2rem 0;
+            font-size: 1.1rem;
+            animation: pulse 2s infinite;
+        }
+
+        /* Tab Content */
+        .tab-content-area {
             opacity: 0;
             transform: translateX(50px);
             transition: all 0.5s ease;
+            position: absolute;
         }
 
         .tab-content-area.visible {
             opacity: 1;
             transform: translateX(0);
+            position: relative;
         }
 
         .tab-content {
@@ -301,10 +298,6 @@
                 flex-direction: column;
             }
 
-            .tabs-container {
-                flex-direction: column;
-            }
-
             .tabs-sidebar {
                 width: 100%;
                 min-height: auto;
@@ -323,6 +316,7 @@
                 text-align: center;
                 border-left: none;
                 border-bottom: 4px solid transparent;
+                white-space: nowrap;
             }
 
             .tab:hover,
@@ -332,7 +326,7 @@
                 border-bottom-color: #667eea;
             }
 
-            .tab-content-area {
+            .main-content {
                 order: 1;
                 min-height: 50vh;
             }
@@ -358,34 +352,36 @@
     <!-- Content Section -->
     <section class="section content" id="content">
         <div class="content-wrapper">
-            <!-- Course Information (Default View) -->
-            <div class="course-info" id="courseInfo">
-                <h2>Course Information</h2>
-                <p>
-                    This page is dedicated to the course <strong>Reinforcement Learning in Control</strong> 
-                    offered at <span class="university">Iran University of Science and Technology</span>.
-                </p>
-                <div class="coming-soon">
-                    New changes and contents will be coming soon!
+            <!-- Tabs Sidebar -->
+            <div class="tabs-sidebar">
+                <div class="tabs-title">
+                    <h3>Course Materials</h3>
+                </div>
+                <div class="tabs">
+                    <button class="tab" data-tab="overview">📚 Course Overview</button>
+                    <button class="tab" data-tab="slides">📖 Lecture Slides</button>
+                    <button class="tab" data-tab="homeworks">📝 Homeworks</button>
+                    <button class="tab" data-tab="quizzes">❓ Quizzes</button>
+                    <button class="tab" data-tab="seminars">🎤 Seminars</button>
+                    <button class="tab" data-tab="projects">🚀 Projects</button>
                 </div>
             </div>
 
-            <!-- Tabs Container -->
-            <div class="tabs-container" id="tabsContainer" style="display: none;">
-                <div class="tabs-sidebar">
-                    <div class="tabs-title">
-                        <h3>Course Materials</h3>
-                    </div>
-                    <div class="tabs">
-                        <button class="tab active" data-tab="overview">📚 Course Overview</button>
-                        <button class="tab" data-tab="slides">📖 Lecture Slides</button>
-                        <button class="tab" data-tab="homeworks">📝 Homeworks</button>
-                        <button class="tab" data-tab="quizzes">❓ Quizzes</button>
-                        <button class="tab" data-tab="seminars">🎤 Seminars</button>
-                        <button class="tab" data-tab="projects">🚀 Projects</button>
+            <!-- Main Content Area -->
+            <div class="main-content">
+                <!-- Course Information (Default View) -->
+                <div class="course-info" id="courseInfo">
+                    <h2>Course Information</h2>
+                    <p>
+                        This page is dedicated to the course <strong>Reinforcement Learning in Control</strong> 
+                        offered at <span class="university">Iran University of Science and Technology</span>.
+                    </p>
+                    <div class="coming-soon">
+                        New changes and contents will be coming soon!
                     </div>
                 </div>
 
+                <!-- Tab Content Area -->
                 <div class="tab-content-area" id="tabContentArea">
                     <div class="tab-content">
                         <div class="demo-message">
@@ -423,7 +419,6 @@
         const tabs = document.querySelectorAll('.tab');
         const tabContent = document.querySelector('.tab-content');
         const courseInfo = document.getElementById('courseInfo');
-        const tabsContainer = document.getElementById('tabsContainer');
         const tabContentArea = document.getElementById('tabContentArea');
 
         const tabData = {
@@ -461,14 +456,9 @@
 
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
-                // Hide course info and show tabs container
+                // Hide course info and show tab content
                 courseInfo.classList.add('hidden');
-                tabsContainer.style.display = 'flex';
-                
-                // Show tab content area with animation
-                setTimeout(() => {
-                    tabContentArea.classList.add('visible');
-                }, 100);
+                tabContentArea.classList.add('visible');
 
                 // Remove active class from all tabs
                 tabs.forEach(t => t.classList.remove('active'));
