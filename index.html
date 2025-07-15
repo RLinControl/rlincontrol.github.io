@@ -224,11 +224,11 @@
             padding: 2rem 0;
         }
 
-        .back-tab {
-            background: #667eea;
+        .homepage-tab {
+            background: #28a745;
             color: white;
             border: none;
-            padding: 0.8rem 1.5rem;
+            padding: 1rem 1.5rem;
             margin: 0 1rem 1rem 1rem;
             border-radius: 8px;
             cursor: pointer;
@@ -237,10 +237,11 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-size: 1rem;
         }
 
-        .back-tab:hover {
-            background: #5a6fd8;
+        .homepage-tab:hover {
+            background: #218838;
             transform: translateY(-2px);
         }
 
@@ -432,8 +433,8 @@
     <div class="tab-full-page" id="tabFullPage">
         <div class="tab-full-content">
             <div class="tab-sidebar-full">
-                <button class="back-tab" id="backTab">
-                    ← Back
+                <button class="homepage-tab" id="homepageTab">
+                    🏠 Homepage
                 </button>
                 <div class="tabs-title">
                     <h3>Course Materials</h3>
@@ -489,7 +490,7 @@
         const tabs = document.querySelectorAll('.tab');
         const tabFullPage = document.getElementById('tabFullPage');
         const tabContent = document.getElementById('tabContent');
-        const backTab = document.getElementById('backTab');
+        const homepageTab = document.getElementById('homepageTab');
 
         const tabData = {
             overview: {
@@ -510,78 +511,83 @@
             quizzes: {
                 icon: '❓',
                 title: 'Quizzes',
-                message: 'Quiz materials will be available here.'
+                message: 'Quiz materials and schedules will be available here.'
             },
             seminars: {
                 icon: '🎤',
                 title: 'Seminars',
-                message: 'Seminar information will be posted here.'
+                message: 'Seminar presentations and materials will be shared here.'
             },
             projects: {
                 icon: '🚀',
                 title: 'Projects',
-                message: 'Project details and requirements will be available here.'
+                message: 'Course projects and guidelines will be posted here.'
             }
         };
 
-        function showTabContent(tabKey) {
-            const data = tabData[tabKey];
-            
-            // Update content
-            tabContent.innerHTML = `
-                <div class="demo-message">
-                    <div class="demo-icon">${data.icon}</div>
-                    <h3>${data.title}</h3>
-                    <p>${data.message}</p>
-                    <p>This is a demo version of the course website.</p>
-                </div>
-            `;
-            
-            // Show full page tab
-            tabFullPage.classList.add('visible');
-            
-            // Update active states in full page
-            document.querySelectorAll('.tab-full').forEach(t => t.classList.remove('active'));
-            document.querySelector(`.tab-full[data-tab="${tabKey}"]`).classList.add('active');
-        }
-
-        // Handle tab clicks (both sidebar and full page tabs)
+        // Handle tab clicks
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
-                const tabKey = tab.getAttribute('data-tab');
+                const tabName = tab.getAttribute('data-tab');
+                const data = tabData[tabName];
                 
-                // Remove active class from all tabs
+                // Update active tab
                 tabs.forEach(t => t.classList.remove('active'));
-                
-                // Add active class to clicked tab
                 tab.classList.add('active');
                 
-                // Show tab content
-                showTabContent(tabKey);
+                // Update content
+                tabContent.innerHTML = `
+                    <div class="demo-message">
+                        <div class="demo-icon">${data.icon}</div>
+                        <h3>${data.title}</h3>
+                        <p>${data.message}</p>
+                        <p>Stay tuned for updates!</p>
+                    </div>
+                `;
+                
+                // Show full page
+                tabFullPage.classList.add('visible');
+                document.body.style.overflow = 'hidden';
             });
         });
 
-        // Back button functionality
-        backTab.addEventListener('click', () => {
+        // Handle homepage button
+        homepageTab.addEventListener('click', () => {
             tabFullPage.classList.remove('visible');
+            document.body.style.overflow = 'auto';
             
-            // Remove active states from all tabs
+            // Remove active state from all tabs
             tabs.forEach(t => t.classList.remove('active'));
         });
 
-        // Handle clicks outside the tab content to close
-        tabFullPage.addEventListener('click', (e) => {
-            if (e.target === tabFullPage) {
+        // Handle escape key to close full page
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && tabFullPage.classList.contains('visible')) {
                 tabFullPage.classList.remove('visible');
+                document.body.style.overflow = 'auto';
                 tabs.forEach(t => t.classList.remove('active'));
             }
         });
 
-        // Handle escape key to close tab
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && tabFullPage.classList.contains('visible')) {
-                tabFullPage.classList.remove('visible');
-                tabs.forEach(t => t.classList.remove('active'));
+        // Prevent body scroll when full page is open
+        tabFullPage.addEventListener('wheel', (e) => {
+            e.preventDefault();
+        });
+
+        // Add smooth transitions for better UX
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= 768) {
+                // Mobile adjustments if needed
+                const tabsSidebar = document.getElementById('tabsSidebar');
+                if (tabsSidebar.classList.contains('visible')) {
+                    // Ensure proper mobile layout
+                    tabsSidebar.style.transform = 'translateY(0)';
+                }
             }
         });
     </script>
