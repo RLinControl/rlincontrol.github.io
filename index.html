@@ -144,27 +144,16 @@
             border-left-color: #764ba2;
         }
 
-        /* Main Content Area */
-        .main-content {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            transition: all 0.5s ease;
-        }
-
         /* Course Info Section */
         .course-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
+            padding: 2rem;
             transition: all 0.5s ease;
-        }
-
-        .course-info.hidden {
-            opacity: 0;
-            transform: translateX(50px);
-            pointer-events: none;
-            position: absolute;
         }
 
         .course-info h2 {
@@ -196,53 +185,90 @@
             animation: pulse 2s infinite;
         }
 
-        /* Tab Content */
-        .tab-content-area {
+        /* Full Page Tab Content */
+        .tab-full-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #f8f9fa;
+            z-index: 1000;
+            display: none;
             opacity: 0;
-            transform: translateX(50px);
             transition: all 0.5s ease;
-            position: absolute;
         }
 
-        .tab-content-area.visible {
+        .tab-full-page.visible {
+            display: flex;
             opacity: 1;
-            transform: translateX(0);
-            position: relative;
+        }
+
+        .tab-full-content {
+            width: 100%;
+            display: flex;
+        }
+
+        .tab-sidebar-full {
+            width: 300px;
+            background: white;
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 0;
+        }
+
+        .close-tab {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            margin: 0 1rem 1rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .close-tab:hover {
+            background: #ff3742;
+            transform: translateY(-2px);
+        }
+
+        .tab-content-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
         }
 
         .tab-content {
             background: white;
-            padding: 3rem;
+            padding: 4rem;
             border-radius: 15px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            min-height: 300px;
             width: 100%;
-            max-width: 600px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .demo-message {
+            max-width: 800px;
             text-align: center;
-            color: #666;
-            font-size: 1.1rem;
         }
 
         .demo-message h3 {
             color: #667eea;
-            margin-bottom: 1rem;
-            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
         }
 
         .demo-message p {
-            margin-bottom: 1rem;
-            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            font-size: 1.2rem;
+            color: #666;
         }
 
         .demo-icon {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
+            font-size: 5rem;
+            margin-bottom: 2rem;
             opacity: 0.7;
         }
 
@@ -301,7 +327,6 @@
             .tabs-sidebar {
                 width: 100%;
                 min-height: auto;
-                order: 2;
             }
 
             .tabs {
@@ -326,13 +351,21 @@
                 border-bottom-color: #667eea;
             }
 
-            .main-content {
-                order: 1;
-                min-height: 50vh;
+            .tab-sidebar-full {
+                width: 100%;
+                min-height: auto;
+            }
+
+            .tab-full-content {
+                flex-direction: column;
             }
 
             .tab-content {
                 padding: 2rem;
+            }
+
+            .demo-message h3 {
+                font-size: 2rem;
             }
         }
     </style>
@@ -367,34 +400,44 @@
                 </div>
             </div>
 
-            <!-- Main Content Area -->
-            <div class="main-content">
-                <!-- Course Information (Default View) -->
-                <div class="course-info" id="courseInfo">
-                    <h2>Course Information</h2>
-                    <p>
-                        This page is dedicated to the course <strong>Reinforcement Learning in Control</strong> 
-                        offered at <span class="university">Iran University of Science and Technology</span>.
-                    </p>
-                    <div class="coming-soon">
-                        New changes and contents will be coming soon!
-                    </div>
-                </div>
-
-                <!-- Tab Content Area -->
-                <div class="tab-content-area" id="tabContentArea">
-                    <div class="tab-content">
-                        <div class="demo-message">
-                            <div class="demo-icon">📚</div>
-                            <h3>Course Overview</h3>
-                            <p>Course materials and content will be available soon.</p>
-                            <p>This is a demo version of the course website.</p>
-                        </div>
-                    </div>
+            <!-- Course Information -->
+            <div class="course-info">
+                <h2>Course Information</h2>
+                <p>
+                    This page is dedicated to the course <strong>Reinforcement Learning in Control</strong> 
+                    offered at <span class="university">Iran University of Science and Technology</span>.
+                </p>
+                <div class="coming-soon">
+                    New changes and contents will be coming soon!
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Full Page Tab Content -->
+    <div class="tab-full-page" id="tabFullPage">
+        <div class="tab-full-content">
+            <div class="tab-sidebar-full">
+                <button class="close-tab" id="closeTab">✕ Close</button>
+                <div class="tabs-title">
+                    <h3>Course Materials</h3>
+                </div>
+                <div class="tabs">
+                    <button class="tab tab-full" data-tab="overview">📚 Course Overview</button>
+                    <button class="tab tab-full" data-tab="slides">📖 Lecture Slides</button>
+                    <button class="tab tab-full" data-tab="homeworks">📝 Homeworks</button>
+                    <button class="tab tab-full" data-tab="quizzes">❓ Quizzes</button>
+                    <button class="tab tab-full" data-tab="seminars">🎤 Seminars</button>
+                    <button class="tab tab-full" data-tab="projects">🚀 Projects</button>
+                </div>
+            </div>
+            <div class="tab-content-main">
+                <div class="tab-content" id="tabContent">
+                    <!-- Content will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Smooth scrolling animation on scroll
@@ -417,9 +460,9 @@
 
         // Tab functionality
         const tabs = document.querySelectorAll('.tab');
-        const tabContent = document.querySelector('.tab-content');
-        const courseInfo = document.getElementById('courseInfo');
-        const tabContentArea = document.getElementById('tabContentArea');
+        const tabFullPage = document.getElementById('tabFullPage');
+        const tabContent = document.getElementById('tabContent');
+        const closeTab = document.getElementById('closeTab');
 
         const tabData = {
             overview: {
@@ -454,32 +497,65 @@
             }
         };
 
+        function showTabContent(tabKey) {
+            const data = tabData[tabKey];
+            
+            // Update content
+            tabContent.innerHTML = `
+                <div class="demo-message">
+                    <div class="demo-icon">${data.icon}</div>
+                    <h3>${data.title}</h3>
+                    <p>${data.message}</p>
+                    <p>This is a demo version of the course website.</p>
+                </div>
+            `;
+            
+            // Show full page tab
+            tabFullPage.classList.add('visible');
+            
+            // Update active states in full page
+            document.querySelectorAll('.tab-full').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.tab-full[data-tab="${tabKey}"]`).classList.add('active');
+        }
+
+        // Handle tab clicks (both sidebar and full page tabs)
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
-                // Hide course info and show tab content
-                courseInfo.classList.add('hidden');
-                tabContentArea.classList.add('visible');
-
+                const tabKey = tab.getAttribute('data-tab');
+                
                 // Remove active class from all tabs
                 tabs.forEach(t => t.classList.remove('active'));
                 
                 // Add active class to clicked tab
                 tab.classList.add('active');
-
-                // Get tab data
-                const tabKey = tab.getAttribute('data-tab');
-                const data = tabData[tabKey];
-
-                // Update content
-                tabContent.innerHTML = `
-                    <div class="demo-message">
-                        <div class="demo-icon">${data.icon}</div>
-                        <h3>${data.title}</h3>
-                        <p>${data.message}</p>
-                        <p>This is a demo version of the course website.</p>
-                    </div>
-                `;
+                
+                // Show tab content
+                showTabContent(tabKey);
             });
+        });
+
+        // Close tab functionality
+        closeTab.addEventListener('click', () => {
+            tabFullPage.classList.remove('visible');
+            
+            // Remove active states from all tabs
+            tabs.forEach(t => t.classList.remove('active'));
+        });
+
+        // Handle clicks outside the tab content to close
+        tabFullPage.addEventListener('click', (e) => {
+            if (e.target === tabFullPage) {
+                tabFullPage.classList.remove('visible');
+                tabs.forEach(t => t.classList.remove('active'));
+            }
+        });
+
+        // Handle escape key to close tab
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && tabFullPage.classList.contains('visible')) {
+                tabFullPage.classList.remove('visible');
+                tabs.forEach(t => t.classList.remove('active'));
+            }
         });
     </script>
 </body>
