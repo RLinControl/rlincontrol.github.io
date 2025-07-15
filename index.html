@@ -73,6 +73,7 @@
             opacity: 0;
             transform: translateY(50px);
             transition: all 0.8s ease;
+            flex-direction: column;
         }
 
         .content.visible {
@@ -104,9 +105,101 @@
             padding: 1rem 2rem;
             border-radius: 50px;
             display: inline-block;
-            margin-top: 1rem;
+            margin: 2rem 0;
             font-size: 1.1rem;
             animation: pulse 2s infinite;
+        }
+
+        /* Tab Styles */
+        .tabs-container {
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 3rem;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            flex: 1;
+            min-width: 150px;
+            padding: 1rem 1.5rem;
+            background: white;
+            color: #667eea;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            text-align: center;
+        }
+
+        .tab:hover {
+            background: #f8f9ff;
+            transform: translateY(-2px);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .tab:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 20%;
+            height: 60%;
+            width: 1px;
+            background: #e0e0e0;
+        }
+
+        .tab.active::after {
+            display: none;
+        }
+
+        .tab-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .demo-message {
+            text-align: center;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .demo-message h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .demo-message p {
+            margin-bottom: 1rem;
+        }
+
+        .demo-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
         }
 
         @keyframes fadeInUp {
@@ -156,6 +249,23 @@
             .content p {
                 font-size: 1.1rem;
             }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                min-width: auto;
+                flex: none;
+            }
+
+            .tab:not(:last-child)::after {
+                display: none;
+            }
+
+            .tab:not(:last-child) {
+                border-bottom: 1px solid #e0e0e0;
+            }
         }
     </style>
 </head>
@@ -182,6 +292,27 @@
             <div class="coming-soon">
                 New changes and contents will be coming soon!
             </div>
+
+            <!-- Tabs Container -->
+            <div class="tabs-container">
+                <div class="tabs">
+                    <button class="tab active" data-tab="overview">Course Overview</button>
+                    <button class="tab" data-tab="slides">Lecture Slides</button>
+                    <button class="tab" data-tab="homeworks">Homeworks</button>
+                    <button class="tab" data-tab="quizzes">Quizzes</button>
+                    <button class="tab" data-tab="seminars">Seminars</button>
+                    <button class="tab" data-tab="projects">Projects</button>
+                </div>
+
+                <div class="tab-content">
+                    <div class="demo-message">
+                        <div class="demo-icon">📚</div>
+                        <h3>Course Overview</h3>
+                        <p>Course materials and content will be available soon.</p>
+                        <p>This is a demo version of the course website.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -201,6 +332,67 @@
         document.querySelector('.scroll-indicator').addEventListener('click', () => {
             document.getElementById('content').scrollIntoView({
                 behavior: 'smooth'
+            });
+        });
+
+        // Tab functionality
+        const tabs = document.querySelectorAll('.tab');
+        const tabContent = document.querySelector('.tab-content');
+
+        const tabData = {
+            overview: {
+                icon: '📚',
+                title: 'Course Overview',
+                message: 'Course materials and content will be available soon.'
+            },
+            slides: {
+                icon: '📖',
+                title: 'Lecture Slides',
+                message: 'Lecture slides will be uploaded here.'
+            },
+            homeworks: {
+                icon: '📝',
+                title: 'Homeworks',
+                message: 'Homework assignments will be posted here.'
+            },
+            quizzes: {
+                icon: '❓',
+                title: 'Quizzes',
+                message: 'Quiz materials will be available here.'
+            },
+            seminars: {
+                icon: '🎤',
+                title: 'Seminars',
+                message: 'Seminar information will be posted here.'
+            },
+            projects: {
+                icon: '🚀',
+                title: 'Projects',
+                message: 'Project details and requirements will be available here.'
+            }
+        };
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+
+                // Get tab data
+                const tabKey = tab.getAttribute('data-tab');
+                const data = tabData[tabKey];
+
+                // Update content
+                tabContent.innerHTML = `
+                    <div class="demo-message">
+                        <div class="demo-icon">${data.icon}</div>
+                        <h3>${data.title}</h3>
+                        <p>${data.message}</p>
+                        <p>This is a demo version of the course website.</p>
+                    </div>
+                `;
             });
         });
     </script>
