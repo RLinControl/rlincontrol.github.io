@@ -192,6 +192,7 @@
         }
 
         /* Full Page Tab Content */
+
         .tab-full-page {
             position: fixed;
             top: 0;
@@ -203,6 +204,7 @@
             display: none;
             opacity: 0;
             transition: all 0.5s ease;
+            overflow-y: auto;
         }
 
         .tab-full-page.visible {
@@ -213,6 +215,7 @@
         .tab-full-content {
             width: 100%;
             display: flex;
+            height: 100vh;
         }
 
         .tab-sidebar-full {
@@ -227,37 +230,40 @@
         .tab-content-main {
             flex: 1;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
-            padding: 2rem;
+            padding: 2.5rem 0 2.5rem 0;
+            overflow-y: auto;
+            height: 100vh;
         }
 
         .tab-content {
             background: white;
-            padding: 4rem;
+            padding: 2.5rem 3.5rem;
             border-radius: 15px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 800px;
+            max-width: 1100px;
+            min-width: 0;
             text-align: center;
         }
 
         .demo-message h3 {
             color: #667eea;
-            margin-bottom: 2rem;
-            font-size: 2.5rem;
+            margin-bottom: 1.2rem;
+            font-size: 2rem;
         }
 
         .demo-message p {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             line-height: 1.8;
-            font-size: 1.2rem;
+            font-size: 1.08rem;
             color: #666;
         }
 
         .demo-icon {
-            font-size: 5rem;
-            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            margin-bottom: 1.2rem;
             opacity: 0.7;
         }
 
@@ -294,72 +300,63 @@
 
         @media (max-width: 768px) {
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 2.1rem;
             }
-            
             .hero p {
-                font-size: 1.2rem;
+                font-size: 1rem;
             }
-            
             .course-info h2 {
-                font-size: 2rem;
+                font-size: 1.3rem;
             }
-            
             .course-info p {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
-
             .content-wrapper {
                 flex-direction: column;
             }
-
             .tabs-sidebar {
                 width: 100%;
                 min-height: auto;
                 transform: translateY(-100%);
             }
-
             .tabs-sidebar.visible {
                 transform: translateY(0);
             }
-
             .tabs {
                 flex-direction: row;
                 overflow-x: auto;
                 padding: 1rem;
                 gap: 1rem;
             }
-
             .tab {
-                min-width: 150px;
+                min-width: 120px;
                 text-align: center;
                 border-left: none;
                 border-bottom: 4px solid transparent;
                 white-space: nowrap;
             }
-
             .tab:hover,
             .tab.active {
                 transform: translateY(-2px);
                 border-left-color: transparent;
                 border-bottom-color: #667eea;
             }
-
             .tab-sidebar-full {
                 width: 100%;
                 min-height: auto;
             }
-
             .tab-full-content {
                 flex-direction: column;
             }
-
-            .tab-content {
-                padding: 2rem;
+            .tab-content-main {
+                padding: 1rem 0 1rem 0;
             }
-
+            .tab-content {
+                padding: 1.2rem 0.5rem;
+                max-width: 98vw;
+            }
             .demo-message h3 {
-                font-size: 2rem;
+                font-size: 1.2rem;
             }
         }
     </style>
