@@ -585,10 +585,8 @@
             }
         });
 
-        // Prevent body scroll when full page is open
-        tabFullPage.addEventListener('wheel', (e) => {
-            e.preventDefault();
-        });
+        // Prevent body scroll when full page is open (but allow scrolling inside tab content)
+        // Removed e.preventDefault() to allow scrolling in the overview and other tab pages
 
         // Add smooth transitions for better UX
         window.addEventListener('load', () => {
