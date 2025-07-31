@@ -513,61 +513,6 @@
                 </div>
             </div>
 
-            <!-- Course Overview Default Content -->
-            <div class="tab-content" id="tabContentDefault">
-                <div class="demo-message" style="position: relative; min-height: 9.5rem;">
-                    <div style="position: absolute; left: 0; top: 0; width: 120px; height: 9.5rem; z-index: 0; pointer-events: none;">
-                        <img src="Images/IUST_logo_color.png" alt="IUST Logo" style="height: 100%; width: auto; display: block; margin-left: 0.2rem;" />
-                    </div>
-                    <div style="margin-left: 170px;">
-                        <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem;">
-                            <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0;">📘</span>
-                            <h3 style="margin: 0; color: #667eea; font-size: 1.18rem; font-weight: 700; letter-spacing: 0.01em;">Course Overview</h3>
-                        </div>
-                        <ul style="list-style:none; padding:0; font-size:1.08rem; text-align:left; max-width:1200px; margin:0 0 1.2rem 0.2rem;">
-                            <li><span style="font-size:1.1em;">📍</span> <strong>University:</strong> Iran University of Science and Technology (IUST)</li>
-                            <li><span style="font-size:1.1em;">🏛️</span> <strong>School / Department:</strong> School of Electrical Engineering – Control Group</li>
-                            <li><span style="font-size:1.1em;">🎓</span> <strong>Level:</strong> Graduate (Master’s and PhD)</li>
-                            <li><span style="font-size:1.1em;">📅</span> <strong>Offered Semester:</strong> Fall 2025</li>
-                        </ul>
-                    </div>
-                    <p style="max-width:1200px; margin:0 0 2.2rem 0.2rem; text-align:left; font-size:1.08rem; line-height:1.8;">
-                        This course is part of the graduate curriculum in the Control Group of the School of Electrical Engineering at Iran University of Science and Technology. It is intended for Master’s and PhD students with a background in control systems, machine learning, or related fields. The course combines theoretical foundations with hands-on practical applications.
-                    </p>
-                    <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; margin-top:2.2rem;">
-                        <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0; color:#764ba2;">🎯</span>
-                        <h3 style="margin: 0; color:#764ba2; font-size: 1.13rem; font-weight: 700; letter-spacing: 0.01em;">Course Objectives</h3>
-                    </div>
-                    <ul style="list-style:disc; padding-left: 1.5rem; font-size:1.05rem; text-align:left; max-width:1200px; margin:0 0 2.2rem 0.2rem; line-height:2.1;">
-                        <li>A solid understanding of core RL concepts: <b>bandit problems</b>, <b>exploration vs. exploitation</b>, and <b>Markov Decision Processes (MDPs)</b></li>
-                        <li>Familiarity with classical solution methods: <b>dynamic programming</b>, <b>Monte Carlo</b>, and <b>temporal-difference learning</b> (e.g., Q-Learning, SARSA)</li>
-                        <li>An introduction to <b>neural networks</b> and <b>deep reinforcement learning</b></li>
-                        <li>Exposure to advanced methods such as <b>Actor-Critic</b> and <b>DDPG</b></li>
-                        <li>Application of RL techniques in optimal control: <b>Bellman equation</b>, <b>policy/value iteration</b>, <b>LQR</b>, <b>LQT</b>, and <b>H<sup>&#8734;</sup> control</b></li>
-                        <li>Hands-on experience through coding assignments using <b>Python</b> (PyTorch, Gymnasium, Stable-Baselines3) and <b>MATLAB</b></li>
-                        <li>Engagement with current trends and simulation practices through seminar sessions</li>
-                    </ul>
-                    <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; margin-top:2.2rem;">
-                        <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0; color:#3b82f6;">📚</span>
-                        <h3 style="margin: 0; color:#3b82f6; font-size: 1.13rem; font-weight: 700; letter-spacing: 0.01em;">Prerequisites</h3>
-                    </div>
-                    <ul style="list-style:disc; padding-left: 1.5rem; font-size:1.05rem; text-align:left; max-width:1200px; margin:0 0 0.5rem 0.2rem; line-height:2.1;">
-                        <li>Probability and Statistics</li>
-                        <li>Modern Control Theory (including optimal control concepts)</li>
-                        <li>Basic programming skills in Python and MATLAB</li>
-                    </ul>
-                    <p class="muted" style="max-width:1200px; margin:0 0 0.5rem 0.2rem; text-align:left; font-size:1.05rem; line-height:1.8;">
-                        Familiarity with machine learning concepts is helpful but not required.
-                    </p>
-                    <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; margin-top:2.2rem;">
-                        <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0; color:#f59e42;">🗂</span>
-                        <h3 style="margin: 0; color:#f59e42; font-size: 1.13rem; font-weight: 700; letter-spacing: 0.01em;">Course Topics</h3>
-                    </div>
-                    <div style="overflow-x:auto; max-width:1200px; margin-left:0.2rem;">
-                        <!-- Table and rest of overview content here, unchanged -->
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -610,12 +555,17 @@
 
             if (contentPosition < screenPosition) {
                 content.classList.add('visible');
-                // Add delay for tabs to slide in after content appears
                 setTimeout(() => {
                     tabsSidebar.classList.add('visible');
                 }, 300);
+                // Automatically open Course Overview tab if not already open
+                const tabFullPage = document.getElementById('tabFullPage');
+                if (!tabFullPage.classList.contains('visible')) {
+                    // Simulate click on Course Overview tab
+                    const overviewTab = Array.from(document.querySelectorAll('.tab')).find(t => t.getAttribute('data-tab') === 'overview');
+                    if (overviewTab) overviewTab.click();
+                }
             } else {
-                // When scrolling up, hide tabs first then content
                 tabsSidebar.classList.remove('visible');
                 setTimeout(() => {
                     content.classList.remove('visible');
