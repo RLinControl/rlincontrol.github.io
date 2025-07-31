@@ -526,22 +526,38 @@
                     return;
                 }
                 
-                const data = tabData[tabName];
-                
                 // Update active tab
                 tabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
-                
-                // Update content
-                tabContent.innerHTML = `
-                    <div class="demo-message">
-                        <div class="demo-icon">${data.icon}</div>
-                        <h3>${data.title}</h3>
-                        <p>${data.message}</p>
-                        <p>Stay tuned for updates!</p>
-                    </div>
-                `;
-                
+
+                // Custom content for overview tab
+                if (tabName === 'overview') {
+                    tabContent.innerHTML = `
+                        <div class="demo-message">
+                            <div class="demo-icon">📘</div>
+                            <h3>Course Overview</h3>
+                            <ul style="list-style:none; padding:0; font-size:1.15rem; text-align:left; max-width:600px; margin:0 auto 2rem auto;">
+                                <li><span style="font-size:1.3em;">📍</span> <strong>University:</strong> Iran University of Science and Technology (IUST)</li>
+                                <li><span style="font-size:1.3em;">🏛️</span> <strong>School / Department:</strong> School of Electrical Engineering – Control Group</li>
+                                <li><span style="font-size:1.3em;">🎓</span> <strong>Level:</strong> Graduate (Master’s and PhD)</li>
+                                <li><span style="font-size:1.3em;">📅</span> <strong>Offered Semester:</strong> Fall 2025</li>
+                            </ul>
+                            <p style="max-width:700px; margin:0 auto; text-align:left; font-size:1.1rem; line-height:1.7;">
+                                This course is part of the graduate curriculum in the Control Group of the School of Electrical Engineering at Iran University of Science and Technology. It is intended for Master’s and PhD students with a background in control systems, machine learning, or related fields. The course combines theoretical foundations with hands-on practical applications.
+                            </p>
+                        </div>
+                    `;
+                } else {
+                    const data = tabData[tabName];
+                    tabContent.innerHTML = `
+                        <div class="demo-message">
+                            <div class="demo-icon">${data.icon}</div>
+                            <h3>${data.title}</h3>
+                            <p>${data.message}</p>
+                            <p>Stay tuned for updates!</p>
+                        </div>
+                    `;
+                }
                 // Show full page
                 tabFullPage.classList.add('visible');
                 document.body.style.overflow = 'hidden';
