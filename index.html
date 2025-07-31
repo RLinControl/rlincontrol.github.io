@@ -501,7 +501,8 @@
                     <h3>Reinforcement Learning in Control</h3>
                 </div>
                 <div class="tabs">
-                    <button class="tab" data-tab="homepage">🏠 Homepage</button>
+                    <!-- delete Homepage -->
+                    <!-- <button class="tab" data-tab="homepage">🏠 Homepage</button> -->
                     <button class="tab" data-tab="overview">📚 Course Overview</button>
                     <button class="tab" data-tab="slides">📖 Lecture Slides</button>
                     <button class="tab" data-tab="homeworks">📝 Homeworks</button>
@@ -526,7 +527,7 @@
                     <h3>Reinforcement Learning in Control</h3>
                 </div>
                 <div class="tabs">
-                    <button class="tab tab-full" data-tab="homepage">🏠 Homepage</button>
+                    <!-- <button class="tab tab-full" data-tab="homepage">🏠 Homepage</button> -->
                     <button class="tab tab-full" data-tab="overview">📚 Course Overview</button>
                     <button class="tab tab-full" data-tab="slides">📖 Lecture Slides</button>
                     <button class="tab tab-full" data-tab="homeworks">📝 Homeworks</button>
@@ -587,9 +588,15 @@
 
         // Smooth scroll when clicking on scroll indicator
         document.querySelector('.scroll-indicator').addEventListener('click', () => {
-            document.getElementById('content').scrollIntoView({
-                behavior: 'smooth'
-            });
+            const heroSection = document.querySelector('.hero');
+            if (heroSection) {
+                setTimeout(() => {
+                    heroSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'end'
+                    });
+                }, 350); // 350 mili sec delay
+            }
         });
 
         // Tab functionality
