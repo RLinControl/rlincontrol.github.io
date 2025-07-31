@@ -534,13 +534,15 @@
                 // Custom content for overview tab
                 if (tabName === 'overview') {
                     tabContent.innerHTML = `
-                        <div class="demo-message" style="padding-left: 0.2rem;">
-                            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem;">
-                                <img src="Images/IUST_logo_color.png" alt="IUST Logo" style="height:2.1rem; width:auto; margin-bottom:0; margin-right:0.3rem; vertical-align:middle;" />
+                        <div class="demo-message" style="padding-left: 0.2rem; position: relative; min-height: 9.5rem;">
+                            <div style="position: absolute; left: 0; top: 0; width: 320px; height: 9.5rem; z-index: 0; opacity: 0.13; pointer-events: none;">
+                                <img src="Images/IUST_logo_color.png" alt="IUST Logo" style="height: 100%; width: auto; display: block; margin-left: 0.2rem;" />
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; position: relative; z-index: 1;">
                                 <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0;">📘</span>
                                 <h3 style="margin: 0; color: #667eea; font-size: 1.18rem; font-weight: 700; letter-spacing: 0.01em;">Course Overview</h3>
                             </div>
-                            <ul style="list-style:none; padding:0; font-size:1.08rem; text-align:left; max-width:1200px; margin:0 0 1.2rem 0.2rem;">
+                            <ul style="list-style:none; padding:0; font-size:1.08rem; text-align:left; max-width:1200px; margin:0 0 1.2rem 0.2rem; position: relative; z-index: 1;">
                                 <li><span style="font-size:1.1em;">📍</span> <strong>University:</strong> Iran University of Science and Technology (IUST)</li>
                                 <li><span style="font-size:1.1em;">🏛️</span> <strong>School / Department:</strong> School of Electrical Engineering – Control Group</li>
                                 <li><span style="font-size:1.1em;">🎓</span> <strong>Level:</strong> Graduate (Master’s and PhD)</li>
