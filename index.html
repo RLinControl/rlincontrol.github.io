@@ -23,7 +23,7 @@
     }
     .dark-mode {
       --main-bg: #181a1b;
-      --main-text: #e5e7eb;
+      --main-text: #f3f4f6;
       --panel-bg: #23272f;
       --panel-shadow: 0 8px 25px rgba(0,0,0,0.35);
       --tab-bg: #23272f;
@@ -35,7 +35,11 @@
       --border-color: #33374d;
       --card-bg: #23272f;
       --input-bg: #23272f;
-      --input-text: #e5e7eb;
+      --input-text: #f3f4f6;
+      --muted-text: #b0b6c3;
+      --strong-text: #fff;
+      --link-color: #60a5fa;
+      --heading-color: #fff;
     }
     * {
         margin: 0;
@@ -145,7 +149,7 @@
     }
 
     .tabs-title h3 {
-        color: #667eea;
+        color: var(--section-title);
         font-size: 1.3rem;
         text-align: center;
     }
@@ -200,7 +204,7 @@
     .course-info h2 {
         font-size: 2.5rem;
         margin-bottom: 2rem;
-        color: #667eea;
+        color: var(--section-title);
     }
 
     .course-info p {
@@ -325,7 +329,7 @@
         transition: color 0.2s;
     }
     .dark-mode a {
-        color: #60a5fa;
+        color: var(--link-color) !important;
     }
     /* Dark mode for input fields if any */
     input, textarea, select {
@@ -352,6 +356,32 @@
     .dark-mode #themeToggleBtn {
         background: #fff;
         color: #23272f;
+    }
+
+    /* Muted and strong text helpers */
+    .muted, .dark-mode .muted {
+        color: var(--muted-text) !important;
+    }
+    .strong, .dark-mode .strong {
+        color: var(--strong-text) !important;
+        font-weight: 700;
+    }
+    /* Headings in dark mode */
+    .dark-mode h1, .dark-mode h2, .dark-mode h3, .dark-mode h4, .dark-mode h5, .dark-mode h6 {
+        color: var(--heading-color) !important;
+    }
+    /* Section titles in dark mode */
+    .dark-mode .section-title-instructor, .dark-mode .section-title, .dark-mode h3 {
+        color: var(--section-title) !important;
+    }
+    /* Instructor/TA card tweaks */
+    .dark-mode .tab-content span[style*="color:#888"],
+    .dark-mode .tab-content span[style*="color: #888"],
+    .dark-mode .tab-content div[style*="color:#555"],
+    .dark-mode .tab-content div[style*="color: #555"],
+    .dark-mode .tab-content div[style*="color:#333"],
+    .dark-mode .tab-content div[style*="color: #333"] {
+        color: var(--main-text) !important;
     }
 
     @keyframes fadeInUp {
