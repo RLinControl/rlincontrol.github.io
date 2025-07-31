@@ -513,6 +513,10 @@
                     <button class="tab tab-full" data-tab="seminars">🎤 Seminars</button>
                     <button class="tab tab-full" data-tab="projects">🚀 Projects</button>
                 </div>
+                <div style="flex:1"></div>
+                <div style="padding: 2rem 1.5rem 0.5rem 1.5rem; margin-top:auto;">
+                  <button id="themeToggleBtnFull" style="width:100%; padding:0.7rem 1rem; border-radius:8px; border:none; background:#222; color:#fff; font-size:1rem; font-weight:600; cursor:pointer; transition:background 0.2s, color 0.2s;">🌙 Dark Mode</button>
+                </div>
             </div>
             <div class="tab-content-main">
                 <div class="tab-content" id="tabContent">
@@ -870,21 +874,35 @@
             localStorage.setItem('theme', 'dark');
             const btn = document.getElementById('themeToggleBtn');
             if (btn) btn.innerHTML = '☀️ Light Mode';
+            const btnFull = document.getElementById('themeToggleBtnFull');
+            if (btnFull) btnFull.innerHTML = '☀️ Light Mode';
           } else {
             document.body.classList.remove('dark-mode');
             localStorage.setItem('theme', 'light');
             const btn = document.getElementById('themeToggleBtn');
             if (btn) btn.innerHTML = '🌙 Dark Mode';
+            const btnFull = document.getElementById('themeToggleBtnFull');
+            if (btnFull) btnFull.innerHTML = '🌙 Dark Mode';
           }
         }
         window.addEventListener('DOMContentLoaded', function() {
           // Set theme from localStorage or default to light
           const saved = localStorage.getItem('theme');
           setTheme(saved === 'dark' ? 'dark' : 'light');
-          // Add event listener
+          // Add event listeners
           const btn = document.getElementById('themeToggleBtn');
           if (btn) {
             btn.addEventListener('click', function() {
+              if (document.body.classList.contains('dark-mode')) {
+                setTheme('light');
+              } else {
+                setTheme('dark');
+              }
+            });
+          }
+          const btnFull = document.getElementById('themeToggleBtnFull');
+          if (btnFull) {
+            btnFull.addEventListener('click', function() {
               if (document.body.classList.contains('dark-mode')) {
                 setTheme('light');
               } else {
