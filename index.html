@@ -481,7 +481,16 @@
     </style>
 </head>
 <body>
-
+    <!-- Hero Section -->
+    <section class="section hero">
+        <div>
+            <h1>Reinforcement Learning in Control</h1>
+            <p>Welcome to the Course</p>
+            <div class="scroll-indicator">
+                <div class="scroll-arrow"></div>
+            </div>
+        </div>
+    </section>
 
     <!-- Content Section -->
     <section class="section content" id="content">
@@ -489,9 +498,10 @@
             <!-- Tabs Sidebar -->
             <div class="tabs-sidebar" id="tabsSidebar">
                 <div class="tabs-title">
-                    <h3>Reinforcement Learning in Control</h3>
+                    <h3>Course Materials</h3>
                 </div>
                 <div class="tabs">
+                    <button class="tab" data-tab="homepage">🏠 Homepage</button>
                     <button class="tab" data-tab="overview">📚 Course Overview</button>
                     <button class="tab" data-tab="slides">📖 Lecture Slides</button>
                     <button class="tab" data-tab="homeworks">📝 Homeworks</button>
@@ -513,9 +523,10 @@
         <div class="tab-full-content">
             <div class="tab-sidebar-full">
                 <div class="tabs-title">
-                    <h3>Reinforcement Learning in Control</h3>
+                    <h3>Course Materials</h3>
                 </div>
                 <div class="tabs">
+                    <button class="tab tab-full" data-tab="homepage">🏠 Homepage</button>
                     <button class="tab tab-full" data-tab="overview">📚 Course Overview</button>
                     <button class="tab tab-full" data-tab="slides">📖 Lecture Slides</button>
                     <button class="tab tab-full" data-tab="homeworks">📝 Homeworks</button>
@@ -537,13 +548,23 @@
     </div>
 
     <script>
-        // Smooth fade/slide in content and sidebar on scroll (no hero parallax)
+        // Smooth scrolling animation on scroll
+        // Smooth scrolling animation and parallax/fade effects on scroll
         window.addEventListener('scroll', () => {
             const content = document.getElementById('content');
             const tabsSidebar = document.getElementById('tabsSidebar');
+            const hero = document.querySelector('.hero');
             const contentPosition = content.getBoundingClientRect().top;
             const screenPosition = window.innerHeight / 1.3;
 
+            // Parallax effect for hero section
+            if (hero) {
+                const scrollY = window.scrollY || window.pageYOffset;
+                hero.style.transform = `translateY(${scrollY * 0.25}px)`;
+                hero.style.opacity = Math.max(1 - scrollY / 350, 0.2);
+            }
+
+            // Fade/slide in content and sidebar
             if (contentPosition < screenPosition) {
                 content.classList.add('visible');
                 setTimeout(() => {
@@ -614,6 +635,25 @@
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 const tabName = tab.getAttribute('data-tab');
+                
+                // Check if it's homepage tab
+                if (tabName === 'homepage') {
+                    // Close full page if it's open
+                    if (tabFullPage.classList.contains('visible')) {
+                        tabFullPage.classList.remove('visible');
+                        document.body.style.overflow = 'auto';
+                    }
+                    
+                    // Scroll back to hero section
+                    document.querySelector('.hero').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // Remove active state from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    return;
+                }
+                
                 // Update active tab
                 tabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
