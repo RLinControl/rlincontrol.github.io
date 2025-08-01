@@ -606,7 +606,7 @@
             seminars: {
                 icon: '🎤',
                 title: 'Seminars',
-                message: 'Seminar presentations and materials will be shared here.'
+                message: '' // Will be handled in the click handler for clarity
             },
             projects: {
                 icon: '🚀',
@@ -644,7 +644,7 @@
 
                 // Custom content for overview tab
                 if (tabName === 'overview') {
-                    // Determine correct logo based on theme
+
                     var theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
                     var logoSrc = theme === 'dark' ? 'Images/IUST_logo_solid_black.svg_.png' : 'Images/IUST_logo_color.png';
                     tabContent.innerHTML = `
@@ -848,6 +848,142 @@
                           </div>
                         </div>
                     `;
+
+                } else if (tabName === 'seminars') {
+                    // Render seminars tab content with unified structure and dark mode support
+                    tabContent.innerHTML = `
+                    <div class="demo-message" style="position: relative; min-height: 9.5rem;">                        <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem;">
+                            <span class="demo-icon" style="font-size:1.5rem; color:#0ea5e9; margin-bottom:0;">🎤</span>
+                            <h3 style="margin: 0; color: #0ea5e9; font-size: 1.18rem; font-weight: 700; letter-spacing: 0.01em;">Seminars</h3>
+                        </div>
+                        <ul style="list-style:none; padding:0; font-size:1.08rem; text-align:left; max-width:1200px; margin:0 0 1.2rem 0.2rem;">
+                            <li><span style="font-size:1.1em;">📌</span> <strong>Overview:</strong> As part of the course, students are expected to participate in two seminar sessions. These seminars aim to deepen understanding of the tools and platforms used in Reinforcement Learning (RL) research and applications.</li>
+                        </ul>
+                        <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; margin-top:2.2rem;">
+                            <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0; color:#764ba2;">🎯</span>
+                            <h3 style="margin: 0; color:#764ba2; font-size: 1.13rem; font-weight: 700; letter-spacing: 0.01em;">Seminar 1: RL Simulation Platforms <span style='font-size:0.98em; color:#888;'>(0.5 points out of 20)</span></h3>
+                        </div>
+                        <ul style="list-style:disc; padding-left: 1.5rem; font-size:1.05rem; text-align:left; max-width:1200px; margin:0 0 2.2rem 0.2rem; line-height:2.1;">
+                            <li><b>Format:</b> Team-based (2 members per team). Each team selects and presents one RL platform.</li>
+                            <li><b>Requirements:</b>
+                                <ul style="list-style:circle; padding-left: 2.2rem; margin-bottom:0.7rem;">
+                                    <li>Full introduction of the chosen simulation platform.</li>
+                                    <li>Demonstration of sample simulation results.</li>
+                                    <li>Emphasis on clarity, completeness, and technical depth.</li>
+                                </ul>
+                            </li>
+                            <li><b>Example Platforms:</b> Gymnasium, PettingZoo, RLlib, Dopamine, IsaacSIM <span style='color:#888;'>(...and more in the list below)</span></li>
+                        </ul>
+                        <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; margin-top:2.2rem;">
+                            <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0; color:#3b82f6;">📅</span>
+                            <h3 style="margin: 0; color:#3b82f6; font-size: 1.13rem; font-weight: 700; letter-spacing: 0.01em;">Topics & Schedule</h3>
+                        </div>
+                        <div style="overflow-x:auto; margin-top:0.5rem; max-width:1200px; margin-left:0.2rem;">
+                            <table style="border-collapse:collapse; width:100%; font-size:1.01rem; background:var(--card-bg); color:var(--main-text);">
+                                <thead>
+                                    <tr style="background:#f3f4f6; color:#333;">
+                                        <th style="padding:8px 6px; border:1px solid #e5e7eb; font-weight:700;">Title</th>
+                                        <th style="padding:8px 6px; border:1px solid #e5e7eb; font-weight:700;">Group</th>
+                                        <th style="padding:8px 6px; border:1px solid #e5e7eb; font-weight:700;">Presentation Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">TensorFlow Agents</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
+                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Ray [RLlib]</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
+                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">PyTorch RL</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
+                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Keras-RL</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
+                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">PyQlearning</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
+                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Tensorforce</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
+                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">RLkit</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
+                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Google's Dopamine</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
+                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">SLM Lab</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
+                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">MushroomRL</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
+                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">RL MATLAB Toolbox</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
+                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">PettingZoo</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
+                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">DeepMind’s OpenSpiel</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
+                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Horizon</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
+                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Omniverse IsaacSIM</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
+                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Godot RL</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
+                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Panda-Gym</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
+                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Spinning Up in Deep RL</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="margin-top:0.8rem; font-size:1.04rem; color:#10b981;">
+                            ✅ <b>Note:</b> Teams must coordinate with the instructor and TAs to select and reserve their topic. <span style='color:#eab308;'>First come, first served.</span>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; margin-top:2.8rem;">
+                        <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0; color:#764ba2;">🎯</span>
+                        <h3 style="margin: 0; color:#764ba2; font-size: 1.13rem; font-weight: 700; letter-spacing: 0.01em;">Seminar 2: General RL Methods <span style='font-size:0.98em; color:#888;'>(1 point out of 20)</span></h3>
+                    </div>
+                    <ul style="list-style:disc; padding-left: 1.5rem; font-size:1.05rem; text-align:left; max-width:1200px; margin:0 0 2.2rem 0.2rem; line-height:2.1;">
+                        <li><b>Format:</b> Team-based (2 members per team). Each team selects one general or trending RL method to present.</li>
+                        <li><b>Requirements:</b>
+                            <ul style="list-style:circle; padding-left: 2.2rem; margin-bottom:0.7rem;">
+                                <li>Clear and comprehensive presentation of the selected topic.</li>
+                                <li>No implementation is required.</li>
+                                <li>Focus on motivations, challenges, and modern trends in RL research.</li>
+                            </ul>
+                        </li>
+                        <li><b>Recommendation:</b> Choose trending or impactful topics. Use structured slides and visual explanations where helpful.</li>
+                    </ul>
+                    <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; margin-top:2.2rem;">
+                        <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0; color:#3b82f6;">📅</span>
+                        <h3 style="margin: 0; color:#3b82f6; font-size: 1.13rem; font-weight: 700; letter-spacing: 0.01em;">Topics & Schedule</h3>
+                    </div>
+                    <div style="overflow-x:auto; margin-top:0.5rem; max-width:1200px; margin-left:0.2rem;">
+                        <table style="border-collapse:collapse; width:100%; font-size:1.01rem; background:var(--card-bg); color:var(--main-text); border: 1px solid #e5e7eb;">
+                            <thead>
+                                <tr style="background:#f3f4f6; color:#333;">
+                                    <th style="padding:8px 6px; border:1px solid #e5e7eb; font-weight:700;">Title</th>
+                                    <th style="padding:8px 6px; border:1px solid #e5e7eb; font-weight:700;">Group</th>
+                                    <th style="padding:8px 6px; border:1px solid #e5e7eb; font-weight:700;">Presentation Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${[
+                                    "RL in Image Generative Models (Diffusion Models)",
+                                    "Reinforcement Learning from Human Feedback (RLHF)",
+                                    "Vision-Language-Action Models",
+                                    "RL in Game Development",
+                                    "LLM Agents as Decision Makers",
+                                    "Physics-Informed Reinforcement Learning",
+                                    "Meta Reinforcement Learning",
+                                    "Multi-Agent Reinforcement Learning",
+                                    "Multi-task / Multi-objective Reinforcement Learning",
+                                    "Hierarchical Reinforcement Learning",
+                                    "Safe Reinforcement Learning",
+                                    "Inverse Reinforcement Learning",
+                                    "Transfer Reinforcement Learning",
+                                    "Explainable Reinforcement Learning",
+                                    "Adversarial Reinforcement Learning",
+                                    "Policy Gradient Methods in RL",
+                                    "Generative Reinforcement Learning",
+                                    "Evolutionary Reinforcement Learning",
+                                    "Graph-based Reinforcement Learning",
+                                    "Efficient Reinforcement Learning",
+                                    "Symbolic Logic-based Reinforcement Learning",
+                                    "RL for Sentiment Prediction and Analysis"
+                                ]
+                                    .map(
+                                        (title) =>
+                                            `<tr>
+                                                <td style="padding:7px 6px; border:1px solid #e5e7eb;">${title}</td>
+                                                <td style="padding:7px 6px; border:1px solid #e5e7eb;"></td>
+                                                <td style="padding:7px 6px; border:1px solid #e5e7eb;"></td>
+                                            </tr>`
+                                    )
+                                    .join("")}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="margin-top:0.8rem; font-size:1.04rem; color:#10b981;">
+                        ✅ <b>Note:</b> Topics must be coordinated with the instructor or TAs to avoid duplication. <span style='color:#eab308;'>Priority is given based on the order of request.</span>
+                    </div>
+                    `;
+
                 } else {
                     const data = tabData[tabName];
                     tabContent.innerHTML = `
