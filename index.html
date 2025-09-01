@@ -166,6 +166,14 @@
                 // Update active tab
                 tabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
+                // Scroll to top of tab content area and page
+                if (tabContent) {
+                    tabContent.parentElement.scrollTop = 0;
+                    tabContent.scrollTop = 0;
+                }
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
+                window.scrollTo(0, 0);
 
                 // Custom content for overview tab
                 if (tabName === 'overview') {
