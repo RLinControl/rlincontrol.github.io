@@ -16,13 +16,13 @@
                     <h3>Reinforcement Learning in Control</h3>
                 </div>
                 <div class="tabs">
-                    <button class="tab" data-tab="overview">📚 Course Overview</button>
-                    <button class="tab" data-tab="slides">📖 Lecture Slides</button>
-                    <button class="tab" data-tab="homeworks">📝 Homeworks</button>
-                    <button class="tab" data-tab="quizzes">❓ Quizzes</button>
-                    <button class="tab" data-tab="seminars">🎤 Seminars</button>
-                    <button class="tab" data-tab="projects">🚀 Projects</button>
-                    <button class="tab" data-tab="calendar">📅 Calendar</button>
+                    <a class="tab" data-tab="overview" href="/overview">📚 Course Overview</a>
+                    <a class="tab" data-tab="slides" href="/slides">📖 Lecture Slides</a>
+                    <a class="tab" data-tab="homeworks" href="/homeworks">📝 Homeworks</a>
+                    <a class="tab" data-tab="quizzes" href="/quizzes">❓ Quizzes</a>
+                    <a class="tab" data-tab="seminars" href="/seminars">🎤 Seminars</a>
+                    <a class="tab" data-tab="projects" href="/projects">🚀 Projects</a>
+                    <a class="tab" data-tab="calendar" href="/calendar">📅 Calendar</a>
                 </div>
                 <div style="flex:1"></div>
                 <div style="padding: 2rem 1.5rem 0.5rem 1.5rem; margin-top:auto;">
@@ -41,13 +41,13 @@
                     <h3>Reinforcement Learning in Control</h3>
                 </div>
                 <div class="tabs">
-                    <button class="tab tab-full" data-tab="overview">📚 Course Overview</button>
-                    <button class="tab tab-full" data-tab="slides">📖 Lecture Slides</button>
-                    <button class="tab tab-full" data-tab="homeworks">📝 Homeworks</button>
-                    <button class="tab tab-full" data-tab="quizzes">❓ Quizzes</button>
-                    <button class="tab tab-full" data-tab="seminars">🎤 Seminars</button>
-                    <button class="tab tab-full" data-tab="projects">🚀 Projects</button>
-                    <button class="tab tab-full" data-tab="calendar">📅 Calendar</button>
+                    <a class="tab tab-full" data-tab="overview" href="/overview">📚 Course Overview</a>
+                    <a class="tab tab-full" data-tab="slides" href="/slides">📖 Lecture Slides</a>
+                    <a class="tab tab-full" data-tab="homeworks" href="/homeworks">📝 Homeworks</a>
+                    <a class="tab tab-full" data-tab="quizzes" href="/quizzes">❓ Quizzes</a>
+                    <a class="tab tab-full" data-tab="seminars" href="/seminars">🎤 Seminars</a>
+                    <a class="tab tab-full" data-tab="projects" href="/projects">🚀 Projects</a>
+                    <a class="tab tab-full" data-tab="calendar" href="/calendar">📅 Calendar</a>
                 </div>
                 <div style="flex:1"></div>
                 <div style="padding: 2rem 1.5rem 0.5rem 1.5rem; margin-top:auto;">
@@ -538,6 +538,24 @@
                 document.body.style.overflow = 'hidden';
             });
         });
+
+        // Update JS for SPA routing:
+        function showTabFromPath() {
+            const path = window.location.pathname.replace('/', '') || 'overview';
+            const tab = document.querySelector('.tab[data-tab="' + path + '"]');
+            if (tab) tab.click();
+        }
+        window.addEventListener('DOMContentLoaded', showTabFromPath);
+        // Tab click handler:
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function(e) {
+                e.preventDefault();
+                const tabName = tab.getAttribute('data-tab');
+                history.pushState({}, '', '/' + tabName);
+                // ...existing tab content logic...
+            });
+        });
+        window.addEventListener('popstate', showTabFromPath);
 
         // Handle escape key to close full page
         document.addEventListener('keydown', (e) => {
