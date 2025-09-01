@@ -71,20 +71,18 @@
             const tabContent = document.getElementById('tabContent');
             tabFullPage.classList.add('visible');
             document.body.style.overflow = 'hidden';
-            // Set active tab and ensure selected style
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach(t => t.classList.remove('active'));
-            // Sidebar tab
-            const overviewTabSidebar = document.querySelector('.tabs-sidebar .tab[data-tab="overview"]');
-            if (overviewTabSidebar) overviewTabSidebar.classList.add('active');
-            // Full-page tab
-            const overviewTabFull = document.querySelector('.tab.tab-full[data-tab="overview"]');
-            if (overviewTabFull) overviewTabFull.classList.add('active');
-            // Trigger click to load content
-            if (overviewTabFull) {
-                overviewTabFull.click();
-            } else if (overviewTabSidebar) {
-                overviewTabSidebar.click();
+            // Use URL hash for tab persistence
+            let tabName = window.location.hash ? window.location.hash.replace('#', '') : 'overview';
+            let sidebarTab = document.querySelector('.tabs-sidebar .tab[data-tab="' + tabName + '"]');
+            let fullTab = document.querySelector('.tab.tab-full[data-tab="' + tabName + '"]');
+            if (sidebarTab) sidebarTab.classList.add('active');
+            if (fullTab) fullTab.classList.add('active');
+            if (fullTab) {
+                fullTab.click();
+            } else if (sidebarTab) {
+                sidebarTab.click();
             }
         });
 
@@ -146,7 +144,10 @@
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 const tabName = tab.getAttribute('data-tab');
-                
+                // Update URL hash for tab persistence
+                if (tabName) {
+                    window.location.hash = tabName;
+                }
                 // Check if it's homepage tab
                 if (tabName === 'homepage') {
                     // Close full page if it's open
@@ -154,17 +155,14 @@
                         tabFullPage.classList.remove('visible');
                         document.body.style.overflow = 'auto';
                     }
-                    
                     // Scroll back to hero section
                     document.querySelector('.hero').scrollIntoView({
                         behavior: 'smooth'
                     });
-                    
                     // Remove active state from all tabs
                     tabs.forEach(t => t.classList.remove('active'));
                     return;
                 }
-                
                 // Update active tab
                 tabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
@@ -536,31 +534,6 @@
                 // Show full page
                 tabFullPage.classList.add('visible');
                 document.body.style.overflow = 'hidden';
-            });
-        });
-
-        // Store active tab in localStorage and restore on page load
-        function setActiveTab(tabId) {
-            // Remove active class from all tabs and tab contents
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            // Add active class to selected tab and content
-            document.getElementById(tabId + '-tab').classList.add('active');
-            document.getElementById(tabId + '-content').classList.add('active');
-            // Save to localStorage
-            localStorage.setItem('activeTab', tabId);
-        }
-
-        // On page load, restore last active tab
-        window.addEventListener('DOMContentLoaded', function() {
-            var lastTab = localStorage.getItem('activeTab') || 'overview';
-            setActiveTab(lastTab);
-            // Add click listeners to tabs
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    var tabId = tab.id.replace('-tab', '');
-                    setActiveTab(tabId);
-                });
             });
         });
 
