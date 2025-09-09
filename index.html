@@ -175,6 +175,8 @@
                 // Inject the loaded (or fallback) content
                 tabContent.innerHTML = content;
 
+                document.querySelector('.tab-content-main').scrollTop = 0;
+                
                 // --- 🖼️ SPECIAL CASE: Update logo for 'overview' tab after injection ---
                 if (tabName === 'overview') {
                     const logo = document.getElementById('iustLogo');
