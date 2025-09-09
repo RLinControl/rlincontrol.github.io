@@ -92,11 +92,6 @@
         const tabContent = document.getElementById('tabContent');
 
         const tabData = {
-            overview: {
-                icon: '📚',
-                title: 'Course Overview',
-                message: 'Course materials and content will be available soon.'
-            },
             slides: {
                 icon: '📖',
                 title: 'Lecture Slides',
@@ -112,433 +107,85 @@
                 title: 'Quizzes',
                 message: 'Quiz materials and schedules will be available here.'
             },
-            seminars: {
-                icon: '🎤',
-                title: 'Seminars',
-                message: '' // Will be handled in the click handler for clarity
-            },
             projects: {
                 icon: '🚀',
                 title: 'Projects',
                 message: 'Course projects and guidelines will be posted here.'
             },
-            calendar: {
-                icon: '📅',
-                title: 'Calendar',
-                message: `
-                    <div style="display: flex; flex-direction: column; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem;">
-                        <div style="display: flex; align-items: center; gap: 0.6rem;">
-                            <span class="demo-icon" style="font-size:1.5rem; color:#0ea5e9; margin-bottom:0;">📅</span>
-                            <h3 style="margin: 0; color: #0ea5e9; font-size: 1.18rem; font-weight: 700; letter-spacing: 0.01em;">Calendar</h3>
-                        </div>
-                        <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=7&ctz=Asia%2FTehran&mode=MONTH&title=RL%20in%20Control%20Fall%202025&src=NGI3ODQ1MWZmZTM1MjM5Y2M3OWYxNjE5OTEwMDgxMGRkZWZlZDMyMjNlZGRiYzU5M2MxOGJmZmYwYzI0OWQxNEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23e67c73" 
-                            style="border:solid 1px #777; width: 90%; max-width: 1200px; height: 70vh; min-height: 400px;" 
-                            frameborder="0" scrolling="no">
-                        </iframe>
-                    </div>
-                `
-            }
         };
 
         // Handle tab clicks for course materials
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
+        // Handle tab clicks for course materials — MODULAR VERSION
+        tabs.forEach(tab => { 
+            tab.addEventListener('click', async () => {
                 const tabName = tab.getAttribute('data-tab');
+
                 // Update URL hash for tab persistence
                 if (tabName) {
                     window.location.hash = tabName;
                 }
-                // Check if it's homepage tab
+
+                // Handle homepage tab (close full page)
                 if (tabName === 'homepage') {
-                    // Close full page if it's open
                     if (tabFullPage.classList.contains('visible')) {
                         tabFullPage.classList.remove('visible');
                         document.body.style.overflow = 'auto';
                     }
-                    // Scroll back to hero section
-                    document.querySelector('.hero').scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                    // Remove active state from all tabs
+                    document.querySelector('.hero')?.scrollIntoView({ behavior: 'smooth' });
                     tabs.forEach(t => t.classList.remove('active'));
                     return;
                 }
-                // Update active tab
+
+                // Update active state
                 tabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
-                // Scroll to top of tab content area and page
-                if (tabContent) {
-                    tabContent.parentElement.scrollTop = 0;
-                    tabContent.scrollTop = 0;
-                }
-                document.documentElement.scrollTop = 0;
-                document.body.scrollTop = 0;
-                window.scrollTo(0, 0);
 
-                // Custom content for overview tab
-                if (tabName === 'overview') {
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
 
-                    var theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-                    var logoSrc = theme === 'dark' ? 'Images/IUST_logo_solid_black.svg_.png' : 'Images/IUST_logo_color.png';
-                    tabContent.innerHTML = `
-                        <div class="demo-message" style="position: relative; min-height: 9.5rem;">
-                            <div style="position: absolute; left: 0; top: 0; width: 120px; height: 9.5rem; z-index: 0; pointer-events: none;">
-                                <img id="iustLogo" src="${logoSrc}" alt="IUST Logo" style="height: 100%; width: auto; display: block; margin-left: 0.2rem;" />
-                            </div>
-                            <div style="margin-left: 170px;">
-                                <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem;">
-                                    <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0;">📘</span>
-                                    <h3 style="margin: 0; color: #667eea; font-size: 1.18rem; font-weight: 700; letter-spacing: 0.01em;">Course Overview</h3>
-                                </div>
-                                <ul style="list-style:none; padding:0; font-size:1.08rem; text-align:left; max-width:1200px; margin:0 0 1.2rem 0.2rem;">
-                                    <li><span style="font-size:1.1em;">📍</span> <strong>University:</strong> Iran University of Science and Technology (IUST)</li>
-                                    <li><span style="font-size:1.1em;">🏛️</span> <strong>School / Department:</strong> School of Electrical Engineering – Control Group</li>
-                                    <li><span style="font-size:1.1em;">🎓</span> <strong>Level:</strong> Graduate (Master’s and PhD)</li>
-                                    <li><span style="font-size:1.1em;">📅</span> <strong>Offered Semester:</strong> Fall 2025</li>
-                                </ul>
-                            </div>
-                            <p style="max-width:1200px; margin:0 0 2.2rem 0.2rem; text-align:left; font-size:1.08rem; line-height:1.8;">
-                                This course is part of the graduate curriculum in the Control Group of the School of Electrical Engineering at Iran University of Science and Technology. It is intended for Master’s and PhD students with a background in control systems, machine learning, or related fields. The course combines theoretical foundations with hands-on practical applications.
-                            </p>
+                // --- 🎯 GENERIC FETCH LOADER ---
+                let content = '';
 
-                            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; margin-top:2.2rem;">
-                                <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0; color:#764ba2;">🎯</span>
-                                <h3 style="margin: 0; color:#764ba2; font-size: 1.13rem; font-weight: 700; letter-spacing: 0.01em;">Course Objectives</h3>
-                            </div>
-                            <ul style="list-style:disc; padding-left: 1.5rem; font-size:1.05rem; text-align:left; max-width:1200px; margin:0 0 2.2rem 0.2rem; line-height:2.1;">
-                                <li>A solid understanding of core RL concepts: <b>bandit problems</b>, <b>exploration vs. exploitation</b>, and <b>Markov Decision Processes (MDPs)</b></li>
-                                <li>Familiarity with classical solution methods: <b>dynamic programming</b>, <b>Monte Carlo</b>, and <b>temporal-difference learning</b> (e.g., Q-Learning, SARSA)</li>
-                                <li>An introduction to <b>neural networks</b> and <b>deep reinforcement learning</b></li>
-                                <li>Exposure to advanced methods such as <b>Actor-Critic</b> and <b>DDPG</b></li>
-                                <li>Application of RL techniques in optimal control: <b>Bellman equation</b>, <b>policy/value iteration</b>, <b>LQR</b>, <b>LQT</b>, and <b>H<sup>&#8734;</sup> control</b></li>
-                                <li>Hands-on experience through coding assignments using <b>Python</b> (PyTorch, Gymnasium, Stable-Baselines3) and <b>MATLAB</b></li>
-                                <li>Engagement with current trends and simulation practices through seminar sessions</li>
-                            </ul>
+                try {
+                    // Try to load the HTML file for this tab
+                    const response = await fetch(`tabs/${tabName}.html`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: tabs/${tabName}.html not found`);
+                    }
+                    content = await response.text();
+                } catch (error) {
+                    console.warn(`Failed to load tabs/${tabName}.html. Using fallback.`, error);
 
-                            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; margin-top:2.2rem;">
-                                <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0; color:#3b82f6;">📚</span>
-                                <h3 style="margin: 0; color:#3b82f6; font-size: 1.13rem; font-weight: 700; letter-spacing: 0.01em;">Prerequisites</h3>
-                            </div>
-                            <ul style="list-style:disc; padding-left: 1.5rem; font-size:1.05rem; text-align:left; max-width:1200px; margin:0 0 0.5rem 0.2rem; line-height:2.1;">
-                                <li>Probability and Statistics</li>
-                                <li>Modern Control Theory (including optimal control concepts)</li>
-                                <li>Basic programming skills in Python and MATLAB</li>
-                            </ul>
-                            <p style="max-width:1200px; margin:0 0 0.5rem 0.2rem; text-align:left; font-size:1.05rem; line-height:1.8; color:#444;" class="dm-light-text">Familiarity with machine learning concepts is helpful but not required.</p>
-
-                            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; margin-top:2.2rem;">
-                                <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0; color:#f59e42;">🗂</span>
-                                <h3 style="margin: 0; color:#f59e42; font-size: 1.13rem; font-weight: 700; letter-spacing: 0.01em;">Course Topics</h3>
-                            </div>
-                            <div style="overflow-x:auto; max-width:1200px; margin-left:0.2rem;">
-                                <table style="border-collapse:collapse; width:100%; font-size:1.01rem; background:#fafbfc;">
-                                    <thead>
-                                        <tr style="background:#f3f4f6; color:#333;">
-                                            <th style="padding:8px 6px; border:1px solid #e5e7eb; font-weight:700;">Week / Date</th>
-                                            <th style="padding:8px 6px; border:1px solid #e5e7eb; font-weight:700;">Topic</th>
-                                            <th style="padding:8px 6px; border:1px solid #e5e7eb; font-weight:700;">Lecture Slides</th>
-                                            <th style="padding:8px 6px; border:1px solid #e5e7eb; font-weight:700;">Homework (File/Type)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">1</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">Introduction to Reinforcement Learning</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">TBD</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">—</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">2</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">Foundations of Reinforcement Learning (Multi-Armed Bandits)</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">TBD</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">—</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">3-4</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">Markov Decision Processes (MDPs)</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">TBD</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">—</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">4</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">Dynamic Programming</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">TBD</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">—</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">5</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">Monte Carlo Methods</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">TBD</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">—</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">6</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">Temporal Difference (TD) Learning</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">TBD</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">—</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">6</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">Introduction to Deep Reinforcement Learning</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">TBD</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">—</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">7-8</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">Policy Gradient and Actor Critic Methods</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">TBD</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">—</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">9</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">Deep Deterministic Policy Gradient (DDPG)</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">TBD</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">—</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">10</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">Optimal Control and Reinforcement Learning</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">TBD</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">—</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">11</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">Reinforcement Learning for Linear Discrete Systems</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">TBD</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">—</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">12</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">Approximated Dynamic Programmming and IRL</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">TBD</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">—</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">13-14</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">Offpolicy Reinfocement Learning</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">TBD</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">—</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">14</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">Model Free LQR for Continues Time Systems</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">TBD</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">—</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">15</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">Actor-Critic based Reinforcement Learning Control for Nonlinear Systems</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">TBD</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">—</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">15</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">Linear Quadratic Tracking (LQT)</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">TBD</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">—</td></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; margin-top:2.2rem;">
-                                <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0; color:#10b981;">📝</span>
-                                <h3 style="margin: 0; color:#10b981; font-size: 1.13rem; font-weight: 700; letter-spacing: 0.01em;">Evaluation</h3>
-                            </div>
-                            <p style="max-width:1200px; margin:0 0 0.5rem 0.2rem; text-align:left; font-size:1.05rem; line-height:1.8; color:#444;" class="dm-light-text">
-                                The final grade will be based on the following components:
-                            </p>
-                            <div style="overflow-x:auto; max-width:600px; margin-left:0.2rem; margin-bottom:1.5rem;">
-                                <table style="border-collapse:collapse; width:100%; font-size:1.01rem; background:#fafbfc;">
-                                    <thead>
-                                        <tr style="background:#f3f4f6; color:#333;">
-                                            <th style="padding:8px 6px; border:1px solid #e5e7eb; font-weight:700;">Component</th>
-                                            <th style="padding:8px 6px; border:1px solid #e5e7eb; font-weight:700;">Weight (out of 20)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Homework Assignments</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">3.0</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Class Exercises</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">1.0</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Comprehensive Homework (General RL)</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">1.0</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Quizzes</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">6.0</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Final Exam</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">6.0</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Simulation Platform Seminar</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">0.75</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Advanced Topics Seminar</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">0.75</td></tr>
-                                        <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Final Project</td><td style="padding:7px 6px; border:1px solid #e5e7eb;">1.5</td></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <!-- Tools & Resources Section -->
-                            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; margin-top:2.2rem;">
-                                <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0; color:#0ea5e9;">🧰</span>
-                                <h3 style="margin: 0; color:#0ea5e9; font-size: 1.13rem; font-weight: 700; letter-spacing: 0.01em;">Tools &amp; Resources</h3>
-                            </div>
-                            <ul style="list-style:disc; padding-left: 1.5rem; font-size:1.05rem; text-align:left; max-width:1200px; margin:0 0 2.2rem 0.2rem; line-height:2.1;">
-                                <li><b>Programming Languages &amp; Libraries:</b></li>
-                                <ul style="list-style:circle; padding-left: 2.2rem; margin-bottom:0.7rem;">
-                                    <li>Python and MATLAB (both are used throughout the course)</li>
-                                    <li>PyTorch for implementing deep learning models</li>
-                                    <li>Gymnasium and Stable-Baselines3 for RL environments and algorithm baselines</li>
-                                    <li>Google Colab recommended for running Python notebooks without local setup</li>
-                                </ul>
-                            </ul>
-
-                            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; margin-top:2.2rem;">
-                                <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0; color:#6366f1;">📚</span>
-                                <h3 style="margin: 0; color:#6366f1; font-size: 1.13rem; font-weight: 700; letter-spacing: 0.01em;">Main Textbooks</h3>
-                            </div>
-                            <ul style="list-style:disc; padding-left: 1.5rem; font-size:1.05rem; text-align:left; max-width:1200px; margin:0 0 2.2rem 0.2rem; line-height:2.1;">
-                                <li><i>Reinforcement Learning: An Introduction</i> by Richard S. Sutton and Andrew G. Barto</li>
-                                <li><i>Optimal Control</i> by Frank L. Lewis, Draguna Vrabie, and Vassilis L. Syrmos (for the control-focused part of the course)</li>
-                            </ul>
-
-                            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; margin-top:2.2rem;">
-                                <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0; color:#22c55e;">🎓</span>
-                                <h3 style="margin: 0; color:#22c55e; font-size: 1.13rem; font-weight: 700; letter-spacing: 0.01em;">Recommended Supplementary Courses</h3>
-                            </div>
-                            <ul style="list-style:disc; padding-left: 1.5rem; font-size:1.05rem; text-align:left; max-width:1200px; margin:0 0 2.2rem 0.2rem; line-height:2.1;">
-                                <li><a href="https://davidstarsilver.wordpress.com/teaching/" target="_blank" style="color:#2563eb; text-decoration:underline; font-weight:500;">David Silver’s Reinforcement Learning Course (DeepMind)</a></li>
-                                <li><a href="https://rail.eecs.berkeley.edu/deeprlcourse/" target="_blank" style="color:#2563eb; text-decoration:underline; font-weight:500;">CS285: Deep Reinforcement Learning at UC Berkeley</a></li>
-                                <li><a href="https://huggingface.co/learn/deep-rl-course/unit0/introduction" target="_blank" style="color:#2563eb; text-decoration:underline; font-weight:500;">Hugging Face Deep RL Course (Free)</a></li>
-                            </ul>
-                        </div>
-
-                        <!-- Instructor & Teaching Assistants Section -->
-                        <div style="margin-top: 2.7rem; margin-bottom: 2.2rem;">
-                          <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; margin-left:0;">
-                            <span class="demo-icon" style="font-size:1.5rem; color:#0ea5e9; margin-bottom:0;">🧑‍🏫</span>
-                            <h3 style="margin: 0; color:#0ea5e9; font-size: 1.13rem; font-weight: 700; letter-spacing: 0.01em; text-align:left;">Instructor & Teaching Assistants</h3>
-                          </div>
-                          <div style="display: flex; align-items: flex-start; gap: 2.2rem;">
-                            <div style="flex-shrink:0; display: flex; align-items: center; justify-content: center;">
-                              <img src="Images/shamaghdari94.jpg" alt="Dr. Saeed Shamaghdari" style="width: 90px; height: 90px; object-fit: cover; border-radius: 50%; background: #fff; pointer-events: none;" />
-                            </div>
-                            <div style="flex:1; min-width:0;">
-                              <div style="display: flex; align-items: flex-end; gap: 0.7rem; margin-bottom: 0.2rem;">
-                                <span style="font-size:1.15rem; font-weight:400; color:#888;">Instructor</span>
-                                <span style="font-size:1.35rem; font-weight:700; color:#222; margin-left:0.2rem;" class="dm-light-text">Dr. Saeed Shamaghdari</span>
-                              </div>
-                              <div style="font-size:1.07rem; color:#555; margin-bottom:0.2rem;">Faculty Member, Department of Electrical Engineering – Control Group</div>
-                              <div style="font-size:1.3rem; color:#2563eb; margin-bottom:0.2rem; display: flex; align-items: center; gap: 1.1rem;">
-                                <span style="display: flex; align-items: center; gap: 0.7rem; font-size:1.08rem; flex-wrap: wrap;">
-                                  <a href="mailto:shamaghdari@iust.ac.ir" title="Email" style="color:#2563eb; text-decoration:none; display:inline-flex; align-items:center; gap:0.2rem;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; margin-right:2px;"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg>
-                                    shamaghdari@iust.ac.ir
-                                  </a>
-                                  <a href="https://www.linkedin.com/in/saeed-shamaghdari-b8a9897b/" title="LinkedIn" target="_blank" style="color:#2563eb; text-decoration:none; display:inline-flex; align-items:center;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><rect x="2" y="2" width="20" height="20" rx="5"/><line x1="16" y1="11" x2="16" y2="16"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="8" y1="11" x2="8" y2="16"/><circle cx="8" cy="8" r="1"/></svg>
-                                  </a>
-                                  <a href="https://scholar.google.com/citations?user=kMNnLQgAAAAJ&hl=en" title="Google Scholar" target="_blank" style="color:#2563eb; text-decoration:none; display:inline-flex; align-items:center;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M22 7L12 3 2 7l10 4 10-4z"/><path d="M17 10.5V17a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-6.5"/><path d="M12 12v6"/></svg>
-                                  </a>
-                                  <a href="https://www.iust.ac.ir/content/42493/Dr.-Shamaghdari" title="IUST Webpage" target="_blank" style="color:#2563eb; text-decoration:none; display:inline-flex; align-items:center;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><circle cx="12" cy="12" r="10"/><line x1="2" y="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/></svg>
-                                  </a>
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <div style="display: flex; align-items: flex-start; gap: 2.2rem; margin-top: 1.5rem;">
-                            <div style="flex-shrink:0; display: flex; align-items: center; justify-content: center;">
-                                <img src="Images/IMG_20250425_195915_355.jpg" alt="Seyede Setare Khosravi" style="width: 90px; height: 90px; object-fit: cover; border-radius: 50%; background: #fff; pointer-events: none;" />
-                            </div>
-                            <div style="flex:1; min-width:0;">
-                                <div style="display: flex; align-items: flex-end; gap: 0.7rem; margin-bottom: 0.2rem;">
-                                    <span style="font-size:1.15rem; font-weight:400; color:#888;">Teaching Assistant</span>
-                                    <span style="font-size:1.35rem; font-weight:700; color:#222; margin-left:0.2rem;" class="dm-light-text">Seyede Setare Khosravi</span>
-                                </div>
-                                <div style="font-size:1.07rem; color:#555; margin-bottom:0.2rem;">Graduate Student in Electrical Engineering (Control)</div>
-                                <div style="font-size:1.3rem; color:#2563eb; margin-bottom:0.2rem; display: flex; align-items: center; gap: 1.1rem;">
-                                    <span style="display: flex; align-items: center; gap: 0.7rem; font-size:1.08rem; flex-wrap: wrap;">
-                                        <a href="mailto:strhkhosravi@gmail.com" title="Email" style="color:#2563eb; text-decoration:none; display:inline-flex; align-items:center; gap:0.2rem;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; margin-right:2px;"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg>
-                                            strhkhosravi@gmail.com
-                                        </a>
-                                        <a href="https://www.linkedin.com/in/setarekhosravi/" title="LinkedIn" target="_blank" style="color:#2563eb; text-decoration:none; display:inline-flex; align-items:center;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><rect x="2" y="2" width="20" height="20" rx="5"/><line x1="16" y1="11" x2="16" y2="16"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="8" y1="11" x2="8" y2="16"/><circle cx="8" cy="8" r="1"/></svg>
-                                        </a>
-                                        <a href="https://github.com/setarekhosravi" title="GitHub" target="_blank" style="color:#2563eb; text-decoration:none; display:inline-flex; align-items:center;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M9 19c-5 1-5-2-7-2m14 4v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7a5.44 5.44 0 0 0-1.5-3.75 5.07 5.07 0 0 0-.09-3.77s-1.18-.35-3.88 1.44a13.38 13.38 0 0 0-7 0C4.18 2.65 3 3 3 3a5.07 5.07 0 0 0-.09 3.77A5.44 5.44 0 0 0 1.5 10c0 5.42 3.3 6.61 6.44 7a3.37 3.37 0 0 0-.94 2.61V21"></path></svg>
-                                        </a>
-                                    </span>
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-                    `;
-
-                } else if (tabName === 'seminars') {
-                    // Render seminars tab content with unified structure and dark mode support
-                    tabContent.innerHTML = `
-                    <div class="demo-message" style="position: relative; min-height: 9.5rem;">                        <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem;">
-                            <span class="demo-icon" style="font-size:1.5rem; color:#0ea5e9; margin-bottom:0;">🎤</span>
-                            <h3 style="margin: 0; color: #0ea5e9; font-size: 1.18rem; font-weight: 700; letter-spacing: 0.01em;">Seminars</h3>
-                        </div>
-                        <ul style="list-style:none; padding:0; font-size:1.08rem; text-align:left; max-width:1200px; margin:0 0 1.2rem 0.2rem;">
-                            <li><span style="font-size:1.1em;">📌</span> <strong>Overview:</strong> As part of the course, students are expected to participate in two seminar sessions. These seminars aim to deepen understanding of the tools and platforms used in Reinforcement Learning (RL) research and applications.</li>
-                        </ul>
-                        <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; margin-top:2.2rem;">
-                            <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0; color:#764ba2;">🎯</span>
-                            <h3 style="margin: 0; color:#764ba2; font-size: 1.13rem; font-weight: 700; letter-spacing: 0.01em;">Seminar 1: RL Simulation Platforms <span style='font-size:0.98em; color:#888;'>(0.75 out of 20)</span></h3>
-                        </div>
-                        <ul style="list-style:disc; padding-left: 1.5rem; font-size:1.05rem; text-align:left; max-width:1200px; margin:0 0 2.2rem 0.2rem; line-height:2.1;">
-                            <li><b>Format:</b> Team-based (2 members per team). Each team selects and presents one RL platform.</li>
-                            <li><b>Requirements:</b>
-                                <ul style="list-style:circle; padding-left: 2.2rem; margin-bottom:0.7rem;">
-                                    <li>Full introduction of the chosen simulation platform.</li>
-                                    <li>Demonstration of sample simulation results.</li>
-                                    <li>Emphasis on clarity, completeness, and technical depth.</li>
-                                </ul>
-                            </li>
-                            <li><b>Example Platforms:</b> Gymnasium, PettingZoo, RLlib, Dopamine, IsaacSIM <span style='color:#888;'>(...and more in the list below)</span></li>
-                        </ul>
-                        <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; margin-top:2.2rem;">
-                            <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0; color:#3b82f6;">📅</span>
-                            <h3 style="margin: 0; color:#3b82f6; font-size: 1.13rem; font-weight: 700; letter-spacing: 0.01em;">Topics & Schedule</h3>
-                        </div>
-                        <div style="overflow-x:auto; margin-top:0.5rem; max-width:1200px; margin-left:0.2rem;">
-                            <table style="border-collapse:collapse; width:100%; font-size:1.01rem; background:var(--card-bg); color:var(--main-text);">
-                                <thead>
-                                    <tr style="background:#f3f4f6; color:#333;">
-                                        <th style="padding:8px 6px; border:1px solid #e5e7eb; font-weight:700;">Title</th>
-                                        <th style="padding:8px 6px; border:1px solid #e5e7eb; font-weight:700;">Group</th>
-                                        <th style="padding:8px 6px; border:1px solid #e5e7eb; font-weight:700;">Presentation Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">TensorFlow Agents</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
-                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Ray [RLlib]</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
-                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">PyTorch RL</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
-                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Keras-RL</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
-                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">PyQlearning</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
-                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Tensorforce</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
-                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">RLkit</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
-                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Google's Dopamine</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
-                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">SLM Lab</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
-                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">MushroomRL</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
-                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">RL MATLAB Toolbox</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
-                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">PettingZoo</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
-                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">DeepMind’s OpenSpiel</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
-                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Horizon</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
-                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Omniverse IsaacSIM</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
-                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Godot RL</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
-                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Panda-Gym</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
-                                    <tr><td style="padding:7px 6px; border:1px solid #e5e7eb;">Spinning Up in Deep RL</td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td><td style="padding:7px 6px; border:1px solid #e5e7eb;"></td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div style="margin-top:0.8rem; font-size:1.04rem; color:#10b981;">
-                            ✅ <b>Note:</b> Teams must coordinate with the instructor and TAs to select and reserve their topic. <span style='color:#eab308;'>First come, first served.</span>
-                        </div>
-                    </div>
-
-                    <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; margin-top:2.8rem;">
-                        <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0; color:#764ba2;">🎯</span>
-                        <h3 style="margin: 0; color:#764ba2; font-size: 1.13rem; font-weight: 700; letter-spacing: 0.01em;">Seminar 2: General RL Methods <span style='font-size:0.98em; color:#888;'>(0.75 out of 20)</span></h3>
-                    </div>
-                    <ul style="list-style:disc; padding-left: 1.5rem; font-size:1.05rem; text-align:left; max-width:1200px; margin:0 0 2.2rem 0.2rem; line-height:2.1;">
-                        <li><b>Format:</b> Team-based (2 members per team). Each team selects one general or trending RL method to present.</li>
-                        <li><b>Requirements:</b>
-                            <ul style="list-style:circle; padding-left: 2.2rem; margin-bottom:0.7rem;">
-                                <li>Clear and comprehensive presentation of the selected topic.</li>
-                                <li>No implementation is required.</li>
-                                <li>Focus on motivations, challenges, and modern trends in RL research.</li>
-                            </ul>
-                        </li>
-                        <li><b>Recommendation:</b> Choose trending or impactful topics. Use structured slides and visual explanations where helpful.</li>
-                    </ul>
-                    <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; margin-top:2.2rem;">
-                        <span class="demo-icon" style="font-size:1.5rem; margin-bottom:0; color:#3b82f6;">📅</span>
-                        <h3 style="margin: 0; color:#3b82f6; font-size: 1.13rem; font-weight: 700; letter-spacing: 0.01em;">Topics & Schedule</h3>
-                    </div>
-                    <div style="overflow-x:auto; margin-top:0.5rem; max-width:1200px; margin-left:0.2rem;">
-                        <table style="border-collapse:collapse; width:100%; font-size:1.01rem; background:var(--card-bg); color:var(--main-text); border: 1px solid #e5e7eb;">
-                            <thead>
-                                <tr style="background:#f3f4f6; color:#333;">
-                                    <th style="padding:8px 6px; border:1px solid #e5e7eb; font-weight:700;">Title</th>
-                                    <th style="padding:8px 6px; border:1px solid #e5e7eb; font-weight:700;">Group</th>
-                                    <th style="padding:8px 6px; border:1px solid #e5e7eb; font-weight:700;">Presentation Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${[
-                                    "RL in Image Generative Models (Diffusion Models)",
-                                    "Reinforcement Learning from Human Feedback (RLHF)",
-                                    "Vision-Language-Action Models",
-                                    "RL in Game Development",
-                                    "Physics-Informed Reinforcement Learning",
-                                    "Meta Reinforcement Learning",
-                                    "Multi-Agent Reinforcement Learning",
-                                    "Imitation Learning",
-                                    "Multi-task / Multi-objective Reinforcement Learning",
-                                    "Hierarchical Reinforcement Learning",
-                                    "Safe Reinforcement Learning",
-                                    "Inverse Reinforcement Learning",
-                                    "Transfer Reinforcement Learning",
-                                    "Explainable Reinforcement Learning",
-                                    "Adversarial Reinforcement Learning",
-                                    "Policy Gradient Methods in RL",
-                                    "Generative Reinforcement Learning",
-                                    "Evolutionary Reinforcement Learning",
-                                    "Graph-based Reinforcement Learning",
-                                    "Efficient Reinforcement Learning",
-                                    "Symbolic Logic-based Reinforcement Learning",
-                                    "RL for Sentiment Prediction and Analysis"
-                                ]
-                                    .map(
-                                        (title) =>
-                                            `<tr>
-                                                <td style="padding:7px 6px; border:1px solid #e5e7eb;">${title}</td>
-                                                <td style="padding:7px 6px; border:1px solid #e5e7eb;"></td>
-                                                <td style="padding:7px 6px; border:1px solid #e5e7eb;"></td>
-                                            </tr>`
-                                    )
-                                    .join("")}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div style="margin-top:0.8rem; font-size:1.04rem; color:#10b981;">
-                        ✅ <b>Note:</b> Topics must be coordinated with the instructor or TAs to avoid duplication. <span style='color:#eab308;'>Priority is given based on the order of request.</span>
-                    </div>
-                    `;
-
-                } else if (tabName === 'calendar') {
-                    tabContent.innerHTML = `
-                        <div class="demo-message">
-                            ${tabData.calendar.message}
-                        </div>
-                    `;
-                } else {
+                    // Fallback: Use simple message from tabData for basic tabs
                     const data = tabData[tabName];
-                    tabContent.innerHTML = `
-                        <div class="demo-message">
-                            <div class="demo-icon">${data.icon}</div>
-                            <h3>${data.title}</h3>
-                            <p>${data.message}</p>
-                            <p>Stay tuned for updates!</p>
-                        </div>
-                    `;
+                    if (data) {
+                        content = `
+                            <div class="demo-message">
+                                <div class="demo-icon">${data.icon}</div>
+                                <h3>${data.title}</h3>
+                                <p>${data.message}</p>
+                                <p>Stay tuned for updates!</p>
+                            </div>
+                        `;
+                    } else {
+                        content = `<div class="demo-message"><p>Content for "${tabName}" is not available.</p></div>`;
+                    }
                 }
+
+                // Inject the loaded (or fallback) content
+                tabContent.innerHTML = content;
+
+                // --- 🖼️ SPECIAL CASE: Update logo for 'overview' tab after injection ---
+                if (tabName === 'overview') {
+                    const logo = document.getElementById('iustLogo');
+                    if (logo) {
+                        const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                        logo.src = theme === 'dark'
+                            ? 'Images/IUST_logo_solid_black.svg_.png'
+                            : 'Images/IUST_logo_color.png';
+                    }
+                }
+
                 // Show full page
                 tabFullPage.classList.add('visible');
                 document.body.style.overflow = 'hidden';
