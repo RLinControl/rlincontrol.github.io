@@ -488,3 +488,60 @@
             font-size: 1.1rem;
         }
     }
+
+        .staff-section {
+        margin-top: 2.7rem;
+        margin-bottom: 2.2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Keep left aligned */
+        gap: 1.5rem;
+    }
+
+    .staff-container {
+        display: flex;
+        flex-wrap: wrap; /* Allow wrapping on small screens */
+        gap: 1.5rem;
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+
+    .staff-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1rem;
+        width: 550px; /* Fixed width (rectangular) */
+        min-height: 140px;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .staff-card.instructor {
+        background-color: white;
+    }
+
+    .staff-card.ta {
+        background-color: #f3f4f6; /* Light gray for TA boxes */
+    }
+
+    .staff-image img {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        object-fit: cover;
+        background: #fff;
+        pointer-events: none;
+    }
+
+    .staff-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    /* On very small screens, make boxes full width */
+    @media (max-width: 600px) {
+        .staff-card {
+        width: 100%;
+        }
+    }
