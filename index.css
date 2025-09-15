@@ -302,8 +302,16 @@
         z-index: 1;
     }
 
-    /* Hide background image for calendar tab */
-    .tab-content[data-active-tab="calendar"]::before {
+    /* Hide background image for calendar, projects, homeworks, and slides tabs */
+    .tab-content[data-active-tab="calendar"]::before,
+    .tab-content[data-active-tab="projects"]::before,
+    .tab-content[data-active-tab="homeworks"]::before,
+    .tab-content[data-active-tab="slides"]::before {
+        display: none;
+    }
+
+    /* In dark mode, remove background image on all tabs */
+    .dark-mode .tab-content::before {
         display: none;
     }
 
