@@ -283,6 +283,28 @@
         text-align: left;
         margin-left: 0.5rem;
         transition: background 0.3s, color 0.3s;
+        position: relative;
+    }
+
+    .tab-content::before {
+        content: '';
+        position: fixed;
+        right: 60px;
+        bottom: 0px;
+        width: 400px;
+        height: 500px;
+        background-image: url('Images/robot.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        filter: grayscale(50%) opacity(0.5);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* Hide background image for calendar tab */
+    .tab-content[data-active-tab="calendar"]::before {
+        display: none;
     }
 
     .demo-message h3 {
@@ -486,6 +508,13 @@
         }
         .demo-message h3 {
             font-size: 1.1rem;
+        }
+        /* Mobile adjustments for background image */
+        .tab-content::before {
+            width: 150px;
+            height: 150px;
+            right: 15px;
+            bottom: 15px;
         }
     }
     .staff-section {
