@@ -291,6 +291,16 @@
             if (window.innerWidth <= 1470) {
                 sidebar.style.display = 'none';
                 topBar.style.display = 'flex';
+                // Make top bar title and theme toggle slightly smaller in compressed mode
+                const topBarTitle = document.querySelector('.top-bar-title');
+                if (topBarTitle) {
+                    topBarTitle.style.fontSize = '1.1rem'; // slightly smaller
+                }
+                const topBarThemeToggle = document.querySelector('.top-bar-theme-toggle button');
+                if (topBarThemeToggle) {
+                    topBarThemeToggle.style.fontSize = '0.95rem'; // slightly smaller
+                    topBarThemeToggle.style.padding = '0.5rem 0.8rem';
+                }
             } else {
                 sidebar.style.display = '';
                 sidebar.style.position = '';
@@ -346,17 +356,26 @@
                         backBtn.style.left = '0';
                         backBtn.style.paddingLeft = '2rem'; // match tab left padding
                         backBtn.style.background = 'transparent';
-                        // Get tab color
-                        const tabSample = sidebar.querySelector('.tab');
-                        if (tabSample) {
-                            backBtn.style.color = window.getComputedStyle(tabSample).color;
-                            backBtn.style.fontSize = window.getComputedStyle(tabSample).fontSize;
-                            backBtn.style.fontWeight = window.getComputedStyle(tabSample).fontWeight;
+                        // Always use explicit color for visibility
+                        if (document.body.classList.contains('dark-mode')) {
+                            backBtn.style.color = '#60A5FA';
                         } else {
-                            backBtn.style.color = document.body.classList.contains('dark-mode') ? '#7ca7ff' : '#667EEA';
-                            backBtn.style.fontSize = '16px';
-                            backBtn.style.fontWeight = '400';
+                            backBtn.style.color = '#4b6cff';
                         }
+                        // Get tab font size and weight
+                        const tabSample = sidebar.querySelector('.tab');
+                        let tabFontSize = '';
+                        let tabFontWeight = '';
+                        if (tabSample) {
+                            const tabStyles = window.getComputedStyle(tabSample);
+                            tabFontSize = tabStyles.fontSize;
+                            tabFontWeight = tabStyles.fontWeight;
+                        } else {
+                            tabFontSize = '16px';
+                            tabFontWeight = '400';
+                        }
+                        backBtn.style.fontSize = tabFontSize;
+                        backBtn.style.fontWeight = tabFontWeight;
                         backBtn.style.border = 'none';
                         backBtn.style.cursor = 'pointer';
                         backBtn.style.zIndex = '1003';
