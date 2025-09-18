@@ -526,6 +526,6 @@ body, .tab-content, .tabs-sidebar {
 
 @media (max-width: 600px) {
     .staff-card {
-        width: 100%;
+        width: 95%;
     }
 }
