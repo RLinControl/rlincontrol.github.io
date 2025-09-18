@@ -16,12 +16,12 @@
                     <h3>Reinforcement Learning in Control</h3>
                 </div>
                 <div class="tabs">
-                    <button class="tab" data-tab="overview">📚 Course Overview</button>
-                    <button class="tab" data-tab="slides">📖 Lecture Slides</button>
-                    <button class="tab" data-tab="homeworks">📝 Homeworks</button>
-                    <button class="tab" data-tab="seminars">🎤 Seminars</button>
-                    <button class="tab" data-tab="projects">🚀 Projects</button>
-                    <button class="tab" data-tab="calendar">📅 Calendar</button>
+                    <button class="tab" data-tab="overview"> Course Overview</button>
+                    <button class="tab" data-tab="slides"> Lecture Slides</button>
+                    <button class="tab" data-tab="homeworks"> Homeworks</button>
+                    <button class="tab" data-tab="seminars"> Seminars</button>
+                    <button class="tab" data-tab="projects"> Projects</button>
+                    <button class="tab" data-tab="calendar"> Calendar</button>
                 </div>
                 <div style="flex:1"></div>
                 <div style="padding: 2rem 1.5rem 0.5rem 1.5rem; margin-top:auto;">
@@ -40,12 +40,12 @@
                     <h3>Reinforcement Learning in Control</h3>
                 </div>
                 <div class="tabs">
-                    <button class="tab tab-full" data-tab="overview">📚 Course Overview</button>
-                    <button class="tab tab-full" data-tab="slides">📖 Lecture Slides</button>
-                    <button class="tab tab-full" data-tab="homeworks">📝 Homeworks</button>
-                    <button class="tab tab-full" data-tab="seminars">🎤 Seminars</button>
-                    <button class="tab tab-full" data-tab="projects">🚀 Projects</button>
-                    <button class="tab tab-full" data-tab="calendar">📅 Calendar</button>
+                    <button class="tab tab-full" data-tab="overview"> Course Overview</button>
+                    <button class="tab tab-full" data-tab="slides"> Lecture Slides</button>
+                    <button class="tab tab-full" data-tab="homeworks"> Homeworks</button>
+                    <button class="tab tab-full" data-tab="seminars"> Seminars</button>
+                    <button class="tab tab-full" data-tab="projects"> Projects</button>
+                    <button class="tab tab-full" data-tab="calendar"> Calendar</button>
                 </div>
                 <div style="flex:1"></div>
                 <div style="padding: 2rem 1.5rem 0.5rem 1.5rem; margin-top:auto;">
@@ -91,18 +91,15 @@
 
         const tabData = {
             slides: {
-                icon: '📖',
                 title: 'Lecture Slides',
                 message: 'Lecture slides will be uploaded here.'
             },
             homeworks: {
-                icon: '📝',
                 title: 'Homeworks',
                 message: 'Homework assignments will be posted here.'
             },
             
             projects: {
-                icon: '🚀',
                 title: 'Projects',
                 message: 'Course projects and guidelines will be posted here.'
             },
@@ -155,7 +152,6 @@
                     if (data) {
                         content = `
                             <div class="demo-message">
-                                <div class="demo-icon">${data.icon}</div>
                                 <h3>${data.title}</h3>
                                 <p>${data.message}</p>
                                 <p>Stay tuned for updates!</p>
@@ -235,16 +231,32 @@
             document.body.classList.add('dark-mode');
             localStorage.setItem('theme', 'dark');
             const btn = document.getElementById('themeToggleBtn');
-            if (btn) btn.innerHTML = '☀️ Light Mode';
+            if (btn) {
+              btn.innerHTML = '☀️ Light Mode';
+              btn.style.background = '#ffffff';
+              btn.style.color = '#000000';
+            }
             const btnFull = document.getElementById('themeToggleBtnFull');
-            if (btnFull) btnFull.innerHTML = '☀️ Light Mode';
+            if (btnFull) {
+              btnFull.innerHTML = '☀️ Light Mode';
+              btnFull.style.background = '#ffffff';
+              btnFull.style.color = '#000000';
+            }
           } else {
             document.body.classList.remove('dark-mode');
             localStorage.setItem('theme', 'light');
             const btn = document.getElementById('themeToggleBtn');
-            if (btn) btn.innerHTML = '🌙 Dark Mode';
+            if (btn) {
+              btn.innerHTML = '🌙 Dark Mode';
+              btn.style.background = '#222222';
+              btn.style.color = '#ffffff';
+            }
             const btnFull = document.getElementById('themeToggleBtnFull');
-            if (btnFull) btnFull.innerHTML = '🌙 Dark Mode';
+            if (btnFull) {
+              btnFull.innerHTML = '🌙 Dark Mode';
+              btnFull.style.background = '#222222';
+              btnFull.style.color = '#ffffff';
+            }
           }
           // Always update logo after theme change if present
           var logo = document.getElementById('iustLogo');
