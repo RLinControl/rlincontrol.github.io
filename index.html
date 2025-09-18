@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
+    <div class="top-bar" id="topBar" style="display:none; position:fixed; top:0; left:0; width:100vw; z-index:1000; background:#fff; height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 1.5rem;">
+        <button id="hamburgerBtn" class="hamburger-btn" aria-label="Open menu" style="background:#222; color:#fff; border:none; border-radius:8px; padding:0.7rem 1rem; font-size:1.5rem; cursor:pointer;">
+            &#9776;
+        </button>
+        <div class="top-bar-title" style="font-size:20.8px; font-weight:700; color:#4b6cff;">Reinforcement Learning in Control</div>
+        <div class="top-bar-theme-toggle">
+            <button id="themeToggleBtnTop" style="padding:0.7rem 1rem; border-radius:8px; border:none; background:#222; color:#fff; font-size:1rem; font-weight:600; cursor:pointer; transition:background 0.2s, color 0.2s;">🌙 Dark Mode</button>
+        </div>
+    </div>
     <!-- Horizontal Tab Bar -->
     <div class="tabs-sidebar" id="tabsSidebar">
         <div class="tabs-title">
@@ -174,6 +183,34 @@
                     btn.style.background = '#ffffff';
                     btn.style.color = '#000000';
                 }
+                const btnTop = document.getElementById('themeToggleBtnTop');
+                if (btnTop) {
+                    btnTop.innerHTML = '☀️ Light Mode';
+                    btnTop.style.background = '#ffffff';
+                    btnTop.style.color = '#000000';
+                }
+                const topBar = document.getElementById('topBar');
+                if (topBar) {
+                    topBar.style.background = '#23272F'; // updated to requested color
+                    topBar.style.boxShadow = 'none';
+                    topBar.style.borderBottom = 'none';
+                }
+                const topBarTitle = document.querySelector('.top-bar-title');
+                if (topBarTitle) {
+                    topBarTitle.style.color = '#60A5FA';
+                    topBarTitle.style.background = '#23272F'; // match top bar background
+                }
+                // Hamburger icon white, box black in dark mode
+                const hamburgerBtn = document.getElementById('hamburgerBtn');
+                if (hamburgerBtn) {
+                    hamburgerBtn.style.color = '#fff';
+                    hamburgerBtn.style.background = '#23272F';
+                }
+                // Set content background to dark
+                const contentSection = document.querySelector('.content');
+                if (contentSection) {
+                    contentSection.style.background = '#23272F';
+                }
             } else {
                 document.body.classList.remove('dark-mode');
                 localStorage.setItem('theme', 'light');
@@ -182,6 +219,34 @@
                     btn.innerHTML = '🌙 Dark Mode';
                     btn.style.background = '#222222';
                     btn.style.color = '#ffffff';
+                }
+                const btnTop = document.getElementById('themeToggleBtnTop');
+                if (btnTop) {
+                    btnTop.innerHTML = '🌙 Dark Mode';
+                    btnTop.style.background = '#222222';
+                    btnTop.style.color = '#ffffff';
+                }
+                const topBar = document.getElementById('topBar');
+                if (topBar) {
+                    topBar.style.background = '#fff';
+                    topBar.style.boxShadow = 'none';
+                    topBar.style.borderBottom = 'none';
+                }
+                const topBarTitle = document.querySelector('.top-bar-title');
+                if (topBarTitle) {
+                    topBarTitle.style.color = '#4b6cff';
+                    topBarTitle.style.background = '#fff';
+                }
+                // Hamburger icon black, box white in light mode
+                const hamburgerBtn = document.getElementById('hamburgerBtn');
+                if (hamburgerBtn) {
+                    hamburgerBtn.style.color = '#000';
+                    hamburgerBtn.style.background = '#fff';
+                }
+                // Set content background to light
+                const contentSection = document.querySelector('.content');
+                if (contentSection) {
+                    contentSection.style.background = '#fff';
                 }
             }
             // Update logo after theme change
@@ -204,6 +269,154 @@
                         setTheme('dark');
                     }
                 });
+            }
+            // Add event listener for top bar theme toggle
+            const btnTop = document.getElementById('themeToggleBtnTop');
+            if (btnTop) {
+                btnTop.addEventListener('click', function() {
+                    if (document.body.classList.contains('dark-mode')) {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            }
+        });
+
+        // Hamburger menu logic
+        function handleSidebarDisplay() {
+            const sidebar = document.getElementById('tabsSidebar');
+            const hamburger = document.getElementById('hamburgerBtn');
+            const topBar = document.getElementById('topBar');
+            if (window.innerWidth <= 1470) {
+                sidebar.style.display = 'none';
+                topBar.style.display = 'flex';
+            } else {
+                sidebar.style.display = '';
+                sidebar.style.position = '';
+                sidebar.style.top = '';
+                sidebar.style.left = '';
+                sidebar.style.height = '';
+                sidebar.style.zIndex = '';
+                sidebar.style.background = '';
+                topBar.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        }
+        window.addEventListener('resize', handleSidebarDisplay);
+        window.addEventListener('DOMContentLoaded', handleSidebarDisplay);
+        document.getElementById('hamburgerBtn').addEventListener('click', function() {
+            const sidebar = document.getElementById('tabsSidebar');
+            if (window.innerWidth <= 1470) {
+                if (sidebar.style.display === 'block') {
+                    sidebar.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                } else {
+                    sidebar.style.display = 'block';
+                    sidebar.style.position = 'fixed';
+                    sidebar.style.top = '0'; // start from top of window
+                    sidebar.style.left = '0';
+                    sidebar.style.height = '100vh'; // full viewport height
+                    sidebar.style.width = '250px'; // reduced width
+                    sidebar.style.zIndex = '1002';
+                    // Set sidebar background based on theme
+                    if (document.body.classList.contains('dark-mode')) {
+                        sidebar.style.background = '#23272F';
+                    } else {
+                        sidebar.style.background = '#fff';
+                    }
+                    const tabsContainer = sidebar.querySelector('.tabs');
+                    tabsContainer.style.flexDirection = 'column';
+                    tabsContainer.style.display = 'flex';
+                    tabsContainer.style.gap = '0.5rem';
+                    tabsContainer.style.marginTop = '3.5rem'; // ensure tabs start below back arrow
+                    tabsContainer.style.alignItems = 'flex-start'; // left align tabs
+                    // Hide course name and theme toggle in sidebar
+                    sidebar.querySelector('.tabs-title').style.display = 'none';
+                    sidebar.querySelector('.theme-toggle-container').style.display = 'none';
+                    document.body.style.overflow = 'hidden';
+                    // Add back button if not present
+                    if (!sidebar.querySelector('.sidebar-back-btn')) {
+                        const backBtn = document.createElement('button');
+                        backBtn.className = 'sidebar-back-btn';
+                        backBtn.innerHTML = '← Back';
+                        // Match tab font, color, and margin
+                        backBtn.style.position = 'absolute';
+                        backBtn.style.top = '16px';
+                        backBtn.style.left = '0';
+                        backBtn.style.paddingLeft = '2rem'; // match tab left padding
+                        backBtn.style.background = 'transparent';
+                        // Get tab color
+                        const tabSample = sidebar.querySelector('.tab');
+                        if (tabSample) {
+                            backBtn.style.color = window.getComputedStyle(tabSample).color;
+                            backBtn.style.fontSize = window.getComputedStyle(tabSample).fontSize;
+                            backBtn.style.fontWeight = window.getComputedStyle(tabSample).fontWeight;
+                        } else {
+                            backBtn.style.color = document.body.classList.contains('dark-mode') ? '#7ca7ff' : '#667EEA';
+                            backBtn.style.fontSize = '16px';
+                            backBtn.style.fontWeight = '400';
+                        }
+                        backBtn.style.border = 'none';
+                        backBtn.style.cursor = 'pointer';
+                        backBtn.style.zIndex = '1003';
+                        backBtn.style.display = 'flex';
+                        backBtn.style.alignItems = 'center';
+                        backBtn.style.height = '2.5rem';
+                        backBtn.addEventListener('click', function() {
+                            sidebar.style.display = 'none';
+                            document.body.style.overflow = 'auto';
+                        });
+                        sidebar.appendChild(backBtn);
+                    }
+                }
+            }
+        });
+        window.addEventListener('resize', function() {
+            const sidebar = document.getElementById('tabsSidebar');
+            if (window.innerWidth > 1470) {
+                sidebar.style.position = '';
+                sidebar.style.top = '';
+                sidebar.style.left = '';
+                sidebar.style.height = '';
+                sidebar.style.width = '';
+                sidebar.style.zIndex = '';
+                sidebar.style.background = '';
+                sidebar.querySelector('.tabs').style.flexDirection = '';
+                sidebar.querySelector('.tabs').style.display = '';
+                sidebar.querySelector('.tabs').style.gap = '';
+                sidebar.querySelector('.tabs').style.marginTop = '';
+                // Show course name and theme toggle in sidebar
+                sidebar.querySelector('.tabs-title').style.display = '';
+                sidebar.querySelector('.theme-toggle-container').style.display = '';
+                // Remove back button if present
+                const backBtn = sidebar.querySelector('.sidebar-back-btn');
+                if (backBtn) {
+                    backBtn.remove();
+                }
+                // Reset tabs margin
+                const tabsContainer = sidebar.querySelector('.tabs');
+                if (tabsContainer) {
+                    tabsContainer.style.marginTop = '';
+                }
+            }
+        });
+        document.getElementById('tabsSidebar').addEventListener('click', function(e) {
+            // Remove sidebar auto-close on tab click in mobile mode
+            // Previously:
+            // if (window.innerWidth <= 1470 && e.target.classList.contains('tab')) {
+            //     document.getElementById('tabsSidebar').style.display = 'none';
+            //     document.body.style.overflow = 'auto';
+            // }
+        });
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('tabsSidebar');
+            const hamburger = document.getElementById('hamburgerBtn');
+            if (window.innerWidth <= 1470 && sidebar.style.display === 'block') {
+                if (!sidebar.contains(e.target) && e.target !== hamburger) {
+                    sidebar.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
             }
         });
     </script>
