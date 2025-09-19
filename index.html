@@ -13,7 +13,7 @@
         </button>
         <div class="top-bar-title" style="font-size:20.8px; font-weight:700; color:#4b6cff;">Reinforcement Learning in Control</div>
         <div class="top-bar-theme-toggle">
-            <button id="themeToggleBtnTop" style="padding:0.7rem 1rem; border-radius:8px; border:none; background:#222; color:#fff; font-size:1rem; font-weight:600; cursor:pointer; transition:background 0.2s, color 0.2s;">🌙 Dark Mode</button>
+            <button id="themeToggleBtnTop" style="padding:0.7rem 1rem; border-radius:8px; border:none; background:#222; color:#fff; font-size:1rem; font-weight:600; cursor:pointer; transition:background 0.2s, color 0.2s;">🌙</button>
         </div>
     </div>
     <!-- Horizontal Tab Bar -->
@@ -30,7 +30,7 @@
             <button class="tab" data-tab="calendar">Calendar</button>
         </div>
         <div class="theme-toggle-container">
-            <button id="themeToggleBtn" style="padding:0.7rem 1rem; border-radius:8px; border:none; background:#222; color:#fff; font-size:1rem; font-weight:600; cursor:pointer; transition:background 0.2s, color 0.2s;">🌙 Dark Mode</button>
+            <button id="themeToggleBtn" style="padding:0.7rem 1rem; border-radius:8px; border:none; background:#222; color:#fff; font-size:1rem; font-weight:600; cursor:pointer; transition:background 0.2s, color 0.2s;">🌙</button>
         </div>
     </div>
 
@@ -175,13 +175,13 @@
                 localStorage.setItem('theme', 'dark');
                 const btn = document.getElementById('themeToggleBtn');
                 if (btn) {
-                    btn.innerHTML = '☀️ Light Mode';
+                    btn.innerHTML = '☀️';
                     btn.style.background = '#ffffff';
                     btn.style.color = '#000000';
                 }
                 const btnTop = document.getElementById('themeToggleBtnTop');
                 if (btnTop) {
-                    btnTop.innerHTML = '☀️ Light Mode';
+                    btnTop.innerHTML = '☀️';
                     btnTop.style.background = '#ffffff';
                     btnTop.style.color = '#000000';
                 }
@@ -196,7 +196,7 @@
                     topBarTitle.style.color = '#60A5FA';
                     topBarTitle.style.background = '#23272F'; // match top bar background
                 }
-                // Hamburger icon white, box black in dark mode
+                // Hamburger icon white, box black in
                 const hamburgerBtn = document.getElementById('hamburgerBtn');
                 if (hamburgerBtn) {
                     hamburgerBtn.style.color = '#fff';
@@ -212,13 +212,13 @@
                 localStorage.setItem('theme', 'light');
                 const btn = document.getElementById('themeToggleBtn');
                 if (btn) {
-                    btn.innerHTML = '🌙 Dark Mode';
+                    btn.innerHTML = '🌙';
                     btn.style.background = '#222222';
                     btn.style.color = '#ffffff';
                 }
                 const btnTop = document.getElementById('themeToggleBtnTop');
                 if (btnTop) {
-                    btnTop.innerHTML = '🌙 Dark Mode';
+                    btnTop.innerHTML = '🌙';
                     btnTop.style.background = '#222222';
                     btnTop.style.color = '#ffffff';
                 }
@@ -233,7 +233,7 @@
                     topBarTitle.style.color = '#4b6cff';
                     topBarTitle.style.background = '#fff';
                 }
-                // Hamburger icon black, box white in light mode
+                // Hamburger icon black, box white in
                 const hamburgerBtn = document.getElementById('hamburgerBtn');
                 if (hamburgerBtn) {
                     hamburgerBtn.style.color = '#000';
