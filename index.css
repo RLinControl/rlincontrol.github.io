@@ -235,7 +235,7 @@ body {
     content: '';
     position: fixed;
     right: 60px;
-    bottom: -50px;
+    bottom: 0px;
     width: 300px;
     height: 400px;
     background-image: url('Images/robot.gif');
