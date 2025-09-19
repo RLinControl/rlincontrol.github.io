@@ -235,10 +235,10 @@ body {
     content: '';
     position: fixed;
     right: 60px;
-    bottom: 0px;
+    bottom: -50px;
     width: 300px;
     height: 400px;
-    background-image: url('Images/robot.png');
+    background-image: url('Images/robot.gif');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
